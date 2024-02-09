@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb+srv://gayatriginsnapsys:Gayatri123@hrm-2.l3j1yh2.mongodb.net/?retryWrites=true&w=majority",
+    "jwtSecret":"gayatriGawaiSecretToken"
+}
