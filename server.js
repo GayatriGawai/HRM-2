@@ -7,8 +7,7 @@ app.get('/', (req, res) => res.send('API Running'));
 app.use(express.json({ extended: false }));
 
 app.use('/api/auth', require('./routes/api/auth.api'));
-app.use('/api/role', require('./routes/api/roles.api'));
-app.use('/api/employees', require('./routes/api/employees.api'));
+app.use('/api/profile', require('./routes/api/employeesProfile.api'));
 app.use('/api/announcement', require('./routes/api/announcement.api'));
 app.use('/api/attendance', require('./routes/api/attendance.api'));
 app.use('/api/leave', require('./routes/api/leave.api'));

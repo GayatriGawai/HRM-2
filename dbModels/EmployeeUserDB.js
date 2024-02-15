@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const RolesSchema = new mongoose.Schema({
+const EmployeeUserSchema = new Schema({
     email: {
         type: String,
         required: true,
@@ -17,6 +18,6 @@ const RolesSchema = new mongoose.Schema({
     },
 });
 
-const Roles = mongoose.model('Roles', RolesSchema);
+const EmployeeUserDB = mongoose.model('employeeUser', EmployeeUserSchema);
 
-module.exports = Roles;
+module.exports = EmployeeUserDB;

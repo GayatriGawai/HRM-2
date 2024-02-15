@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Employee = require('../../dbModels/EmployeeDB');
+const Employee = require('../../dbModels/EmployeeProfileDB');
+const EmployeeUserDB = require('../../dbModels/EmployeeUserDB');
 const authMiddleware = require('../../middleware/authMiddleware');
 const { check, validationResult } = require('express-validator');
 const { v4: uuidv4 } = require('uuid');
@@ -16,14 +17,35 @@ router.post(
         [
             check('firstName', 'First name is required').notEmpty(),
             check('lastName', 'Last name is required').notEmpty(),
-            check('email', 'Email is required').notEmpty(),
-
-            check('designation', 'Designation is required').notEmpty(),
+            check('phone', 'Please enter valid phone number').isLength({
+                min: 10,
+            }),
+            check(
+                'emailAddress',
+                'Email is required (Personal email)'
+            ).notEmpty(),
             check('skills', 'Skills is required').notEmpty(),
+            check('gender', 'Gender is required').notEmpty(),
+            check('education.*.school', 'School is required').notEmpty(),
+            check('education.*.degree', 'Degree is required').notEmpty(),
+            check(
+                'education.*.fieldofstudy',
+                'Field of Study is required'
+            ).notEmpty(),
+            check('education.*.from', 'Starting date is required').notEmpty(),
+            check('position', 'Position is required').notEmpty(),
+            check('salary', 'Salary is required').notEmpty(),
+            check('isAdmin', 'Please select if employee is admin').notEmpty(),
+            check('dob', 'Date of birth is required').notEmpty(),
         ],
     ],
     async (req, res) => {
         try {
+            if (req.roles !== 'admin') {
+                return res.status(403).json({
+                    message: 'Access denied, admin privileges required',
+                });
+            }
             // Checking the validation results
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -37,7 +59,7 @@ router.post(
 
             const { email } = req.body;
             const oldEmp = await Employee.findOne({
-                email: { $regex: new RegExp(email, 'i') },
+                emailAddress: { $regex: new RegExp(email, 'i') },
             });
             if (oldEmp) {
                 return res.status(409).json({
@@ -50,33 +72,52 @@ router.post(
             }
 
             const {
-                name,
-                status,
-                details,
-                company,
-                location,
-                designation,
+                firstName,
+                lastName,
+                phone,
+                emailAddress,
                 skills,
-                experience,
+                gender,
                 education,
+                experience,
+                position,
+                status,
+                salary,
+                isAdmin,
+                dob,
                 attendance,
             } = req.body;
 
             const empFields = {
-                name,
-                status: status || 'current',
-                details,
-                company: company || 'Insnpsys',
-                location,
-                designation,
+                firstName,
+                lastName,
+                phone,
+                emailAddress,
                 skills: skills.split(','),
-                experience,
+                gender,
                 education,
+                experience,
+                position,
+                status: status || 'Trainee',
+                salary,
+                isAdmin,
+                dob,
                 attendance,
             };
             const newEmployee = new Employee(empFields);
             const employee = await newEmployee.save();
-            res.json(employee);
+            // Create the EmployeeUser document and establish the relationship
+            const employeeUserFields = {
+                email: req.body.email,
+                password: req.body.password,
+                roles: req.body.isAdmin,
+                employee: employee._id, // Reference the newly created Employee
+            };
+
+            const newEmployeeUser = new EmployeeUserDB(employeeUserFields);
+            await newEmployeeUser.save();
+
+            res.json({ employee, employeeUser: newEmployeeUser });
         } catch (error) {
             console.error(error.message);
             res.status(500).send('Server error');
@@ -87,9 +128,9 @@ router.post(
 //====================================================================================================
 
 // @route   GET api/employees
-// @desc    Get all employees
-// @access  Private
-router.get('/', authMiddleware, async (req, res) => {
+// @desc    Get all employees list
+// @access  Public
+router.get('/get-list', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const config = { pageSize: 10 };
     try {
@@ -121,7 +162,7 @@ router.get('/', authMiddleware, async (req, res) => {
 // @route   GET api/employees/:id
 // @desc    Get employee by ID
 // @access  Private
-router.get('/get/:id', authMiddleware, async (req, res) => {
+router.get('/get/:id', async (req, res) => {
     try {
         console.log('Received Params:', req.params);
 
@@ -132,7 +173,6 @@ router.get('/get/:id', authMiddleware, async (req, res) => {
         if (!employee) {
             return res.status(404).json({ msg: 'Employee not found' });
         }
-        console.log('Employee data:', employee);
 
         res.json(employee);
     } catch (error) {
@@ -148,34 +188,60 @@ router.get('/get/:id', authMiddleware, async (req, res) => {
 //====================================================================================================
 // @route   PUT api/employee/:id
 // @desc    Update employee by ID
-// @access  Private
+// @access  Private (Admin Only)
 router.put('/edit/:id', authMiddleware, async (req, res) => {
     try {
+        // Check if the user has admin privileges
+        if (req.roles !== 'admin') {
+            return res.status(403).json({
+                message: 'Access denied, admin privileges required',
+            });
+        }
+
+        // Validate req.body (optional but recommended)
+        // Example: Validate that at least one field is being updated
+        if (Object.keys(req.body).length === 0) {
+            return res
+                .status(400)
+                .json({ msg: 'No fields provided for update' });
+        }
+
+        // Update the employee
         const employee = await Employee.findByIdAndUpdate(
             req.params.id,
             req.body,
-            {
-                new: true,
-            }
+            { new: true }
         );
+
+        // Check if the employee exists
         if (!employee) {
             return res.status(404).json({ msg: 'Employee not found' });
         }
+
+        // Respond with the updated employee
         res.json(employee);
     } catch (error) {
         console.error(error.message);
+        // Handle the case where the provided ID is not valid
         if (error.kind === 'ObjectId') {
-            return res.status(404).json({ msg: 'Emoployee not found' });
+            return res.status(404).json({ msg: 'Employee not found' });
         }
+        // Handle other server errors
         res.status(500).send('Server error');
     }
 });
+
 //====================================================================================================
 // @route   DELETE api/employee/:id
 // @desc    Delete employee by ID
 // @access  Private
 router.delete('/:id', authMiddleware, async (req, res) => {
     try {
+        if (req.roles !== 'admin') {
+            return res.status(403).json({
+                message: 'Access denied, admin privileges required',
+            });
+        }
         const employee = await Employee.findByIdAndDelete(req.params.id);
 
         if (!employee) {
