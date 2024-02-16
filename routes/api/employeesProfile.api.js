@@ -4,7 +4,7 @@ const Employee = require('../../dbModels/EmployeeProfileDB');
 const EmployeeUserDB = require('../../dbModels/EmployeeUserDB');
 const authMiddleware = require('../../middleware/authMiddleware');
 const { check, validationResult } = require('express-validator');
-const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid');
 
 // @route   POST api/employees
 // @desc    Create a new employee
@@ -53,23 +53,9 @@ router.post(
             }
 
             // Generating the uniq ID for employee
-            const empID = uuidv4();
+            // const empID = uuidv4();
 
             //Checking if the employee exists
-
-            const { email } = req.body;
-            const oldEmp = await Employee.findOne({
-                emailAddress: { $regex: new RegExp(email, 'i') },
-            });
-            if (oldEmp) {
-                return res.status(409).json({
-                    errors: [
-                        {
-                            msg: 'Employee already exists, please update if you like',
-                        },
-                    ],
-                });
-            }
 
             const {
                 firstName,
@@ -87,6 +73,20 @@ router.post(
                 dob,
                 attendance,
             } = req.body;
+            const oldEmp = await Employee.findOne({
+                emailAddress: emailAddress,
+            });
+            // console.log(64, email, oldEmp.emailAddress);
+            if (oldEmp && oldEmp._id) {
+                console.log(oldEmp);
+                return res.status(409).json({
+                    errors: [
+                        {
+                            msg: 'Employee already exists, please update if you like',
+                        },
+                    ],
+                });
+            }
 
             const empFields = {
                 firstName,
@@ -108,9 +108,9 @@ router.post(
             const employee = await newEmployee.save();
             // Create the EmployeeUser document and establish the relationship
             const employeeUserFields = {
-                email: req.body.email,
+                email: req.body.emailAddress,
                 password: req.body.password,
-                roles: req.body.isAdmin,
+                roles: req.roles,
                 employee: employee._id, // Reference the newly created Employee
             };
 
@@ -125,7 +125,7 @@ router.post(
     }
 );
 
-//====================================================================================================
+//==================================================================================================================================================================================================
 
 // @route   GET api/employees
 // @desc    Get all employees list
@@ -157,7 +157,7 @@ router.get('/get-list', async (req, res) => {
     }
 });
 
-//====================================================================================================
+//==================================================================================================================================================================================================
 
 // @route   GET api/employees/:id
 // @desc    Get employee by ID
@@ -185,7 +185,7 @@ router.get('/get/:id', async (req, res) => {
     }
 });
 
-//====================================================================================================
+//==================================================================================================================================================================================================
 // @route   PUT api/employee/:id
 // @desc    Update employee by ID
 // @access  Private (Admin Only)
@@ -231,7 +231,7 @@ router.put('/edit/:id', authMiddleware, async (req, res) => {
     }
 });
 
-//====================================================================================================
+//==================================================================================================================================================================================================
 // @route   DELETE api/employee/:id
 // @desc    Delete employee by ID
 // @access  Private
@@ -258,3 +258,5 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
+
+//==================================================================================================================================================================================================

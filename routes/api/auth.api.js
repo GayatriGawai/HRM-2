@@ -92,7 +92,7 @@ router.post(
             user = new EmployeeUserDB({
                 email,
                 password,
-                roles, // Assign roles from request body
+                roles,
             });
 
             // Hash password

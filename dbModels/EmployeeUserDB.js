@@ -9,7 +9,7 @@ const EmployeeUserSchema = new Schema({
     },
     password: {
         type: String,
-        required: true,
+        // required: true,
     },
     roles: {
         type: String,
