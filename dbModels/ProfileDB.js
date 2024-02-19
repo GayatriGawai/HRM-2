@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const EmployeeSchema = new mongoose.Schema({
-    employee: {
+    employeeID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee',
+        ref: 'employeeUser',
     },
     firstName: {
         type: String,

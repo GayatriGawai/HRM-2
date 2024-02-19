@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Employee = require('../../dbModels/EmployeeProfileDB');
-const EmployeeUserDB = require('../../dbModels/EmployeeUserDB');
+const Employee = require('../../dbModels/ProfileDB');
+const EmployeeUserDB = require('../../dbModels/UserDB');
 const authMiddleware = require('../../middleware/authMiddleware');
 const { check, validationResult } = require('express-validator');
 // const { v4: uuidv4 } = require('uuid');
@@ -164,11 +164,11 @@ router.get('/get-list', async (req, res) => {
 // @access  Private
 router.get('/get/:id', async (req, res) => {
     try {
-        console.log('Received Params:', req.params);
+        // console.log('Received Params:', req.params);
 
         const employee = await Employee.findOne({ _id: req.params.id });
 
-        console.log('Received Employee ID:', req.params.id);
+        // console.log('Received Employee ID:', req.params.id);
 
         if (!employee) {
             return res.status(404).json({ msg: 'Employee not found' });

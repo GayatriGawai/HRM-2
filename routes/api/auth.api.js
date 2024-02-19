@@ -4,8 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
-
-const EmployeeUserDB = require('../../dbModels/EmployeeUserDB');
+const EmployeeUserDB = require('../../dbModels/UserDB');
 
 // @route   POST api/auth/login
 // @desc    Authenticate user & get token
@@ -23,7 +22,7 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { email, password } = req.body;
+        const { email, password, roles } = req.body;
 
         try {
             let user = await EmployeeUserDB.findOne({ email });
@@ -32,6 +31,16 @@ router.post(
                 return res.status(400).json({ message: 'Invalid credentials' });
             }
 
+            // Ensure that the roles provided match the roles stored in the database
+
+            if (!user.roles.includes(roles)) {
+                return res
+                    .status(400)
+                    .json({ message: 'Invalid role selected' });
+            }
+
+            // console.log('user.roles:', user.roles);
+            // console.log('req.roles:', req.roles);
             const isMatch = await bcrypt.compare(password, user.password);
 
             if (!isMatch) {

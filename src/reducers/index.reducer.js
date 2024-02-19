@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
-import employees from './employees';
-import auth from './auth';
-import alert from './alert';
+import employees from './employees.reducer';
+import auth from './auth.reducer';
 
 export default combineReducers({
-    alert,
     auth,
     employees,
 });
