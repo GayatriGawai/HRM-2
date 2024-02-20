@@ -1,7 +1,20 @@
 const express = require('express');
 const connectDB = require('./config/db');
+const cors = require('cors');
 const app = express();
 connectDB();
+
+// Enabled CORS for all routes
+// Enabled CORS for specific origins
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
 app.get('/', (req, res) => res.send('API Running'));
 
 app.use(express.json({ extended: false }));

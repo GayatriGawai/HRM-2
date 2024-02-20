@@ -1,7 +1,63 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
+import { setAlert } from '../../actions/alert';
+import { login } from '../../actions/auth.actions/login.action';
 
-const Login = () => {
-    console.log('Olla from Login');
+const Login = ({ login }) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+        roles: '',
+    });
+
+    const { email, password, roles } = formData;
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const validateLogin = async (e) => {
+        e.preventDefault();
+        login(email, password, roles);
+
+        try {
+            const response = await fetch(
+                'http://localhost:5000/api/auth/login',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: formData.email,
+                        password: formData.password,
+                        roles: formData.roles,
+                    }),
+                }
+            );
+
+            const responseData = await response.json(); // Parse response data once
+            console.log(44, responseData);
+            if (!response.ok) {
+                throw new Error(responseData.message); // Access error message from parsed data
+            }
+
+            const { token } = responseData; // Access response data
+
+            localStorage.setItem('jwtSecret', token);
+            navigate('/admin_dashboard');
+
+            setAlert('Logged in successfully', 'success');
+        } catch (error) {
+            console.error('Error during login:', error.message);
+            setAlert('Error during login. Please try again.', 'danger');
+        }
+    };
+
     return (
         <Fragment>
             <div className="container mx-auto mt-16">
@@ -10,7 +66,7 @@ const Login = () => {
                         Sign In
                     </h2>
 
-                    <form>
+                    <form onSubmit={validateLogin}>
                         <div className="mb-4">
                             <label
                                 htmlFor="email"
@@ -22,6 +78,8 @@ const Login = () => {
                                 type="email"
                                 id="email"
                                 name="email"
+                                value={email}
+                                onChange={handleChange}
                                 className="w-full px-3 py-2 border rounded-md"
                                 placeholder="Enter your Email"
                                 required
@@ -39,12 +97,26 @@ const Login = () => {
                                 type="password"
                                 id="password"
                                 name="password"
+                                value={password}
+                                onChange={handleChange}
                                 className="w-full px-3 py-2 border rounded-md"
                                 placeholder="Enter your password"
                                 required
                             />
                         </div>
 
+                        <div>
+                            <label>Role:</label>
+                            <select
+                                name="roles"
+                                value={roles}
+                                onChange={handleChange}
+                                required
+                            >
+                                <option value="employee">Employee</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
                         <button
                             type="submit"
                             className="bg-yellow-600 hover:bg-yellow-500 font-bold py-2 px-4 rounded"
@@ -58,4 +130,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default connect(null, { login })(Login);

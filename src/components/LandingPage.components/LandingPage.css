@@ -1,9 +1,9 @@
 /* LandingPage.css */
 
 .background {
-    background-image: url('../../images/laptop.jpg');
-  
+    background-image: url('../../images/hexagonBlock.jpg');
     background-size: cover;
+    background-color: black;
     background-position: center;
     min-height: 100vh;
     display: flex;
