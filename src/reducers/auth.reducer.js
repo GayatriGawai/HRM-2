@@ -1,8 +1,16 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from '../actions/types.actions';
+import {
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
+    LOGOUT,
+    REGISTRATION_SUCCESS,
+    REGISTRATION_FAIL,
+} from '../actions/types.actions';
 
+const storedToken = localStorage.getItem('token');
 const initialState = {
-    token: localStorage.getItem('token'),
+    token: storedToken ? storedToken : null,
     loading: true,
+    error: {},
 };
 
 export default function (state = initialState, action) {
@@ -16,7 +24,34 @@ export default function (state = initialState, action) {
                 ...payload,
                 loading: false,
             };
+
         case LOGIN_FAIL:
+            localStorage.removeItem('token');
+            return {
+                ...state,
+                token: null,
+                loading: false,
+                error: payload,
+            };
+
+        case 'REGISTRATION_SUCCESS':
+            localStorage.setItem('token', payload.token);
+            return {
+                ...state,
+                ...payload,
+                isAuthenticated: true,
+                loading: false,
+            };
+        case 'REGISTRATION_FAIL':
+            localStorage.removeItem('token');
+            return {
+                ...state,
+                token: null,
+                isAuthenticated: false,
+                loading: false,
+                error: payload,
+            };
+
         case LOGOUT:
             localStorage.removeItem('token');
             return {

@@ -1,30 +1,17 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import SidebarMenu from './side-bar.component';
-import Login from '../auth.components/Login.component';
-//import Register from './register.../auth.components/Register.component';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const NavBar = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [showLogin, setShowLogin] = useState(false);
-    const [showRegister, setShowRegister] = useState(false);
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
-
-    const toggleLogin = () => {
-        setShowLogin(!showLogin);
-        setShowRegister(false); // Hide register form when showing login form
-    };
-
-    const toggleRegister = () => {
-        setShowRegister(!showRegister);
-        setShowLogin(false); // Hide login form when showing register form
-    };
-
     return (
         <Fragment>
-            <nav className="border-gray-200 border-b-1 border-blue-100 top-0 w-full z-10 fixed py-7 px-8 flex items-center justify-between dark:bg-gray-900">
+            <nav className="border-gray-200 border-b-1 border-blue-100 top-0 w-full z-10 fixed py-7 px-8 flex items-center justify-between opacity-90 bg-black-500">
                 {/* Mobile Menu Icon */}
                 <div className="text-white font-semibold p-2 flex md:hidden">
                     <button
@@ -80,38 +67,29 @@ const NavBar = () => {
 
                 {/* Sign In and Sign Up Buttons */}
                 <div className="text-white font-semibold p-2 flex ">
-                    <button
-                        type="button"
-                        className="focus:outline-none text-white font-semibold bg-black-400 hover:text-black hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:focus:ring-yellow-900"
-                        onClick={toggleLogin}
-                    >
-                        <span className="hidden sm:inline">Sign in </span>{' '}
-                        <i className="fas fa-sign-in sm:hidden"></i>
-                    </button>
-                    <button
-                        type="button"
-                        className="focus:outline-none text-white font-semibold bg-black-400 hover:text-black hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:focus:ring-yellow-900"
-                        onClick={toggleRegister}
-                    >
-                        <span className="hidden sm:inline">Sign Up</span>{' '}
-                        <i className="fas fa-user-plus sm:hidden"></i>
-                    </button>
+                    <Link to="/login">
+                        <button
+                            type="button"
+                            className="focus:outline-none text-white font-semibold bg-black-400 hover:text-black hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:focus:ring-yellow-900"
+                        >
+                            <span className="hidden sm:inline">Sign in </span>{' '}
+                            <i className="fas fa-sign-in sm:hidden"></i>
+                        </button>
+                    </Link>
+                    <Link to="/register">
+                        <button
+                            type="button"
+                            className="focus:outline-none text-white font-semibold bg-black-400 hover:text-black hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:focus:ring-yellow-900"
+                        >
+                            <span className="hidden sm:inline">Sign Up</span>{' '}
+                            <i className="fas fa-user-plus sm:hidden"></i>
+                        </button>
+                    </Link>
                 </div>
             </nav>
             <div className={`pt-5 ${isOpen ? 'ml-64' : ''}`}>
                 {isOpen && <SidebarMenu onClose={toggleSidebar} />}
             </div>
-
-            <div>
-                {/* Login Form */}
-                {showLogin && <Login />}
-            </div>
-
-            {/* Register Form
-        
-        
-            /*{showRegister && <Register />}
-        */}
         </Fragment>
     );
 };

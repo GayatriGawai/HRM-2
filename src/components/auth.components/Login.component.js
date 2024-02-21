@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
@@ -49,7 +49,7 @@ const Login = ({ login }) => {
             const { token } = responseData; // Access response data
 
             localStorage.setItem('jwtSecret', token);
-            navigate('/admin_dashboard');
+            navigate('/home');
 
             setAlert('Logged in successfully', 'success');
         } catch (error) {
@@ -60,18 +60,15 @@ const Login = ({ login }) => {
 
     return (
         <Fragment>
-            <div className="container mx-auto mt-16">
+            <div className="container bg bg-yellow-600 mx-auto mt-16">
                 <section className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
-                    <h2 className="text-2xl font-semibold mb-4 font-bold">
+                    <h2 className="text-2xl font-semibold mb-4 font-bold text-left">
                         Sign In
                     </h2>
 
                     <form onSubmit={validateLogin}>
                         <div className="mb-4">
-                            <label
-                                htmlFor="email"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
+                            <label className=" text-left block text-gray-700 text-sm font-bold mb-2">
                                 Email
                             </label>
                             <input
@@ -87,10 +84,7 @@ const Login = ({ login }) => {
                         </div>
 
                         <div className="mb-4">
-                            <label
-                                htmlFor="password"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
+                            <label className="text-left block text-gray-700 text-sm font-bold mb-2">
                                 Password
                             </label>
                             <input
@@ -105,21 +99,34 @@ const Login = ({ login }) => {
                             />
                         </div>
 
-                        <div>
-                            <label>Role:</label>
+                        <div className="mb-4">
+                            <label className="text-left block text-gray-700 text-sm font-bold mb-2">
+                                Role
+                            </label>
                             <select
                                 name="roles"
                                 value={roles}
                                 onChange={handleChange}
+                                className="w-full px-3 py-2 border rounded-md"
                                 required
                             >
                                 <option value="employee">Employee</option>
                                 <option value="admin">Admin</option>
                             </select>
                         </div>
+                        <p className="my-1 pb-5 text-xs font-semibold text-left">
+                            Already have an account?
+                            <Link
+                                to="/register"
+                                className="hover:text-blue-400 hover:underline "
+                            >
+                                {'  '}
+                                Sign Up
+                            </Link>
+                        </p>
                         <button
                             type="submit"
-                            className="bg-yellow-600 hover:bg-yellow-500 font-bold py-2 px-4 rounded"
+                            className="content-end bg-yellow-600 hover:bg-yellow-500 font-bold py-2 px-4 rounded"
                         >
                             Login
                         </button>
