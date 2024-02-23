@@ -1,21 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const Module = require('../../dbModels/modulesDB');
+const Roles = require('../../dbModels/RolesDB');
 
 // POST API
-// To create a Post/Announcement
+// To create a Role
 // Private Route {only admins can create a post}
 
 router.post('/create', async (req, res) => {
     try {
         const { name } = req.body;
 
-        const newModule = await Module({
+        const newRole = await Roles({
             name,
         });
-
-        const module = await newModule.save();
-        res.status(201).json(module);
+        const role = await newRole.save();
+        res.status(201).json(role);
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Server error');
@@ -24,8 +23,8 @@ router.post('/create', async (req, res) => {
 
 router.get('/get', async (req, res) => {
     try {
-        const module = await Module.find();
-        res.status(201).json(module);
+        const role = await Roles.find();
+        res.status(201).json(role);
     } catch (error) {
         res.status(500).send(error);
     }
@@ -33,11 +32,11 @@ router.get('/get', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const module = await Module.findById(req.params.id);
-        if (!module) {
+        const role = await Roles.findById(req.params.id);
+        if (!role) {
             return res.status(404).send();
         }
-        res.send(module);
+        res.send(role);
     } catch (error) {
         res.status(500).send(error);
     }

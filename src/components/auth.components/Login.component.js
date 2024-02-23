@@ -66,7 +66,7 @@ const Login = ({ login }) => {
                         Sign In
                     </h2>
 
-                    <form onSubmit={validateLogin}>
+                    <form onSubmit={validateLogin} className="flex flex-col">
                         <div className="mb-4">
                             <label className=" text-left block text-gray-700 text-sm font-bold mb-2">
                                 Email
@@ -126,7 +126,8 @@ const Login = ({ login }) => {
                         </p>
                         <button
                             type="submit"
-                            className="content-end bg-yellow-600 hover:bg-yellow-500 font-bold py-2 px-4 rounded"
+                            className="bg-yellow-600 hover:bg-yellow-500 font-bold py-2 px-4 rounded"
+                            style={{ marginLeft: 'auto' }}
                         >
                             Login
                         </button>
