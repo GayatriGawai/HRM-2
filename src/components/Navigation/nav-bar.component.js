@@ -2,8 +2,11 @@ import React, { Fragment } from 'react';
 import SidebarMenu from './side-bar.component';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { logout } from '../../actions/auth.actions/login.action';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const NavBar = () => {
+const NavBar = ({ logout }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleSidebar = () => {
@@ -11,9 +14,9 @@ const NavBar = () => {
     };
     return (
         <Fragment>
-            <nav className="border-gray-200 border-b-1 border-blue-100 top-0 w-full z-10 fixed py-7 px-8 flex items-center justify-between opacity-90 bg-black-500">
+            <nav className="flex border-gray-200 border-b-1 border-blue-100 top-0 w-full z-10 fixed py-2 px-8 flex items-center justify-between opacity-90 bg-gray-500">
                 {/* Mobile Menu Icon */}
-                <div className="text-white font-semibold p-2 flex md:hidden">
+                <div className="text-white font-semibold p-2 flex">
                     <button
                         className="block text-white hover:text-black focus:outline-none"
                         onClick={toggleSidebar}
@@ -21,77 +24,31 @@ const NavBar = () => {
                         <i className="fas fa-bars"></i>
                     </button>
                 </div>
-
-                {/* Welcome to Insnapsys */}
+                <div className={`pt-5 ${isOpen ? 'ml-64' : ''}`}>
+                    {isOpen && <SidebarMenu onClose={toggleSidebar} />}
+                </div>
                 <div className="text-white font-bold p-2 flex hover:text-yellow-400">
-                    Welcome to Insnapsys
+                    Insnapsys
                 </div>
 
-                {/* Big Screen Options */}
-                <div className="hidden md:flex md:justify-end md:space-x-11">
-                    <ul className="flex flex-row p-4 font-medium rounded-lg space-x-8 rtl:space-x-reverse dark:bg-gray-800 dark:border-gray-700 text-white">
-                        <li>
-                            <a
-                                href="#"
-                                className="block py-2 px-3 hover:bg-transparent hover:text-yellow-400 p-0 dark:text-white "
-                            >
-                                Home
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#"
-                                className="block py-2 px-3 hover:bg-transparent hover:text-yellow-400 p-0 dark:text-white "
-                            >
-                                About
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#"
-                                className="block py-2 px-3 hover:bg-transparent hover:text-yellow-400 p-0 dark:text-white "
-                            >
-                                Services
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#"
-                                className="block py-2 px-3 hover:bg-transparent hover:text-yellow-400 p-0 dark:text-white "
-                            >
-                                Contact
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                {/* Sign In and Sign Up Buttons */}
+                {/* LOGOUT */}
                 <div className="text-white font-semibold p-2 flex ">
-                    <Link to="/login">
-                        <button
-                            type="button"
+                    <Link to="/">
+                        <a
+                            onClick={logout}
                             className="focus:outline-none text-white font-semibold bg-black-400 hover:text-black hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:focus:ring-yellow-900"
                         >
-                            <span className="hidden sm:inline">Sign in </span>{' '}
-                            <i className="fas fa-sign-in sm:hidden"></i>
-                        </button>
-                    </Link>
-                    <Link to="/register">
-                        <button
-                            type="button"
-                            className="focus:outline-none text-white font-semibold bg-black-400 hover:text-black hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:focus:ring-yellow-900"
-                        >
-                            <span className="hidden sm:inline">Sign Up</span>{' '}
-                            <i className="fas fa-user-plus sm:hidden"></i>
-                        </button>
+                            <span className="hidden sm:inline">Logout</span>{' '}
+                            <i className="fas fa-sign-out-alt sm:hidden"></i>
+                        </a>
                     </Link>
                 </div>
             </nav>
-            <div className={`pt-5 ${isOpen ? 'ml-64' : ''}`}>
-                {isOpen && <SidebarMenu onClose={toggleSidebar} />}
-            </div>
         </Fragment>
     );
 };
 
-export default NavBar;
+NavBar.prototypes = {
+    logout: PropTypes.func.isRequired,
+};
+export default connect(null, { logout })(NavBar);

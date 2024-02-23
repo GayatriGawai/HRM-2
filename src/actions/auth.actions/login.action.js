@@ -27,6 +27,7 @@ export const login = (email, password, roles) => async (dispatch) => {
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data,
+            loading: false,
         });
     } catch (err) {
         const errors = err.response.data.errors;
@@ -37,6 +38,7 @@ export const login = (email, password, roles) => async (dispatch) => {
 
         dispatch({
             type: LOGIN_FAIL,
+            payload: err.response.data.errors,
         });
     }
 };

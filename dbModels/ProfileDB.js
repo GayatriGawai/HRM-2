@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
-const EmployeeSchema = new mongoose.Schema({
+const EmployeeProfileSchema = new mongoose.Schema({
     employeeID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'employeeUser',
+        ref: 'user',
     },
     firstName: {
         type: String,
@@ -21,7 +21,8 @@ const EmployeeSchema = new mongoose.Schema({
     },
 
     emailAddress: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
         required: true,
         unique: true,
         lowercase: true,
@@ -124,6 +125,6 @@ const EmployeeSchema = new mongoose.Schema({
     },
 });
 
-const Employee = mongoose.model('Employee', EmployeeSchema);
+const Profile = mongoose.model('Profile', EmployeeProfileSchema);
 
-module.exports = Employee;
+module.exports = Profile;

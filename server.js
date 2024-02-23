@@ -25,6 +25,7 @@ app.use('/api/announcement', require('./routes/api/announcement.api'));
 app.use('/api/attendance', require('./routes/api/attendance.api'));
 app.use('/api/leave', require('./routes/api/leave.api'));
 app.use('/api/timesheet', require('./routes/api/timesheet.api'));
+app.use('/api/module', require('./routes/api/module.api'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on ${PORT}`));
