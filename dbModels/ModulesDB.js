@@ -1,9 +1,8 @@
-const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 
 const moduleSchema = new mongoose.Schema({
     id: {
-        type: ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
     },
     name: {
         type: String,

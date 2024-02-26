@@ -2,11 +2,11 @@ import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 
 const RoleForm = () => {
+    const [module, setModule] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
+        permissions: [],
     });
-
-    const [module, setModule] = useState([]);
 
     useEffect(() => {
         const fetchModules = async () => {
@@ -15,6 +15,14 @@ const RoleForm = () => {
                     'http://localhost:5000/api/module/get'
                 );
                 setModule(response.data);
+
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    permissions: response.data.map((item) => ({
+                        moduleId: item._id,
+                        actions: [],
+                    })),
+                }));
             } catch (error) {
                 console.error('Error fetching modules:', error);
             }
@@ -25,8 +33,58 @@ const RoleForm = () => {
     const onChange = (e) =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
 
+    const handlePermissionChange = (e, moduleId, action) => {
+        const checked = e.target.checked;
+
+        setFormData((prevFormData) => {
+            const updatedPermissions = prevFormData.permissions.map((item) => {
+                if (item.moduleId === moduleId) {
+                    if (checked) {
+                        const updatedActions = checked
+                            ? [...item.actions, action]
+                            : item.actions.filter((a) => a !== action);
+
+                        return { ...item, actions: updatedActions };
+                    }
+                }
+                return item;
+            });
+            return {
+                ...prevFormData,
+                permissions: updatedPermissions,
+            };
+        });
+    };
+
     const onSubmit = async (e) => {
         e.preventDefault();
+        try {
+            const filteredPermissions = formData.permissions.filter(
+                (permission) => permission.actions.length > 0
+            );
+
+            const permissionsData = filteredPermissions.map((permission) => ({
+                module_id: permission.moduleId,
+                actions: permission.actions,
+            }));
+
+            const response = await axios.post(
+                'http://localhost:5000/api/permission/role',
+                {
+                    name: formData.name,
+                    permissions: permissionsData,
+                }
+            );
+            alert(response.data.message);
+
+            setFormData({
+                name: '',
+                permissions: [],
+            });
+        } catch (error) {
+            console.error('Error creating role:', error);
+            alert('Error creating role');
+        }
     };
 
     return (
@@ -47,6 +105,7 @@ const RoleForm = () => {
                             type="text"
                             id="name"
                             name="name"
+                            value={formData.name}
                             onChange={onChange}
                             className="mt-1 p-3 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
                             placeholder="Role Name"
@@ -71,8 +130,15 @@ const RoleForm = () => {
                                             <input
                                                 type="checkbox"
                                                 className="form-checkbox h-3 w-3 text-yellow-600"
+                                                onChange={(e) =>
+                                                    handlePermissionChange(
+                                                        e,
+                                                        item._id,
+                                                        'create'
+                                                    )
+                                                }
                                             />
-                                            <span className="ml-2 text-xs ">
+                                            <span className="ml-2 text-xs">
                                                 Create
                                             </span>
                                         </label>
@@ -80,6 +146,13 @@ const RoleForm = () => {
                                             <input
                                                 type="checkbox"
                                                 className="form-checkbox h-3 w-3 text-yellow-600"
+                                                onChange={(e) =>
+                                                    handlePermissionChange(
+                                                        e,
+                                                        item._id,
+                                                        'read'
+                                                    )
+                                                }
                                             />
                                             <span className="ml-2 text-xs">
                                                 Read
@@ -89,6 +162,13 @@ const RoleForm = () => {
                                             <input
                                                 type="checkbox"
                                                 className="form-checkbox h-3 w-3 text-yellow-600"
+                                                onChange={(e) =>
+                                                    handlePermissionChange(
+                                                        e,
+                                                        item._id,
+                                                        'update'
+                                                    )
+                                                }
                                             />
                                             <span className="ml-2 text-xs">
                                                 Update
@@ -98,6 +178,13 @@ const RoleForm = () => {
                                             <input
                                                 type="checkbox"
                                                 className="form-checkbox h-3 w-3 text-yellow-600"
+                                                onChange={(e) =>
+                                                    handlePermissionChange(
+                                                        e,
+                                                        item._id,
+                                                        'delete'
+                                                    )
+                                                }
                                             />
                                             <span className="ml-2 text-xs">
                                                 Delete

@@ -5,16 +5,18 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 const EmployeeUserDB = require('../../dbModels/UserDB');
+const Role = require('../../dbModels/rolesDB');
 
-// @route   POST api/auth/login
-// @desc    Authenticate user & get token
+// @route   POST /api/login
+// @desc    Authenticate user and get token
 // @access  Public
 router.post(
     '/login',
     [
+        // Validate email, password, and role
         check('email', 'Please include a valid email').isEmail(),
         check('password', 'Password is required').exists(),
-        check('roles', 'Select the role').notEmpty(),
+        check('role', 'Role is required').exists(),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -22,42 +24,42 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { email, password, roles } = req.body;
+        const { email, password, role } = req.body;
 
         try {
-            let user = await EmployeeUserDB.findOne({ email });
+            // Check if user exists
+            let user = await EmployeeUserDB.findOne({ email }).populate('role');
 
             if (!user) {
                 return res.status(400).json({ message: 'Invalid credentials' });
             }
 
-            // Ensure that the roles provided match the roles stored in the database
-
-            if (!user.roles.includes(roles)) {
-                return res
-                    .status(400)
-                    .json({ message: 'Invalid role selected' });
-            }
-
-            // console.log('user.roles:', user.roles);
-            // console.log('req.roles:', req.roles);
+            // Check if the provided password matches the user's password
             const isMatch = await bcrypt.compare(password, user.password);
 
             if (!isMatch) {
                 return res.status(400).json({ message: 'Invalid credentials' });
             }
 
+            // Check if the user has the provided role
+            if (!user.role || user.role.name !== role) {
+                return res
+                    .status(400)
+                    .json({ message: 'Invalid role selected' });
+            }
+
+            // Generate JWT token with user ID and role
             const payload = {
                 user: {
                     id: user.id,
+                    role: role,
                 },
-                roles: user.roles, // Include roles in the JWT payload
             };
 
             jwt.sign(
                 payload,
                 config.get('jwtSecret'),
-                { expiresIn: 360000 }, // You can adjust the expiration time as needed
+                { expiresIn: 360000 }, // Adjust expiration time as needed
                 (err, token) => {
                     if (err) throw err;
                     res.json({ token });
@@ -77,11 +79,8 @@ router.post(
     '/register',
     [
         check('email', 'Please include a valid email').isEmail(),
-        check(
-            'password',
-            'Please enter a password with 6 or more characters'
-        ).isLength({ min: 6 }),
-        check('roles', 'Select the role').notEmpty(),
+        check('password', 'Password is required').exists(),
+        check('role', 'Role is required').notEmpty(),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -89,7 +88,7 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { email, password, roles } = req.body;
+        const { email, password, role } = req.body;
 
         try {
             let user = await EmployeeUserDB.findOne({ email });
@@ -98,10 +97,17 @@ router.post(
                 return res.status(400).json({ message: 'User already exists' });
             }
 
+            const existingRole = await Role.findOne({ name: role });
+            if (!existingRole) {
+                return res
+                    .status(400)
+                    .json({ message: 'Invalid role selected' });
+            }
+
             user = new EmployeeUserDB({
                 email,
                 password,
-                roles,
+                role: existingRole._id, // Associate the role ID with the user
             });
 
             // Hash password
@@ -110,24 +116,9 @@ router.post(
 
             await user.save();
 
-            const payload = {
-                user: {
-                    id: user.id,
-                },
-                roles: user.roles, // Include roles in the JWT payload
-            };
-
-            jwt.sign(
-                payload,
-                config.get('jwtSecret'),
-                { expiresIn: 360000 }, // You can adjust the expiration time as needed
-                (err, token) => {
-                    if (err) throw err;
-                    res.json({ token });
-                }
-            );
-        } catch (err) {
-            console.error(err.message);
+            res.status(200).json({ message: 'User registered successfully' });
+        } catch (error) {
+            console.error('Error registering user:', error);
             res.status(500).send('Server error');
         }
     }

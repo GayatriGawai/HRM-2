@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { connect } from 'react-redux';
@@ -11,10 +11,33 @@ const Login = ({ login }) => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        roles: '',
+        role: '',
     });
 
-    const { email, password, roles } = formData;
+    const { email, password, role } = formData;
+    const [roles, setRoles] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchRoles = async () => {
+            try {
+                const response = await fetch(
+                    'http://localhost:5000/api/roles/getRoles'
+                );
+                if (!response.ok) {
+                    throw new Error('Failed to fetch roles');
+                }
+                const rolesData = await response.json();
+                setRoles(rolesData);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching roles:', error.message);
+                setAlert('Error fetching roles. Please try again.', 'danger');
+            }
+        };
+
+        fetchRoles();
+    }, []);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,7 +45,7 @@ const Login = ({ login }) => {
 
     const validateLogin = async (e) => {
         e.preventDefault();
-        login(email, password, roles);
+        login(email, password, role);
 
         try {
             const response = await fetch(
@@ -33,30 +56,33 @@ const Login = ({ login }) => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        email: formData.email,
-                        password: formData.password,
-                        roles: formData.roles,
+                        email,
+                        password,
+                        role,
                     }),
                 }
             );
 
-            const responseData = await response.json(); // Parse response data once
-            console.log(44, responseData);
+            const responseData = await response.json();
+            console.log(responseData);
+
             if (!response.ok) {
-                throw new Error(responseData.message); // Access error message from parsed data
+                throw new Error(responseData.message);
             }
 
-            const { token } = responseData; // Access response data
-
+            const { token } = responseData;
             localStorage.setItem('jwtSecret', token);
             navigate('/home');
-
             setAlert('Logged in successfully', 'success');
         } catch (error) {
             console.error('Error during login:', error.message);
             setAlert('Error during login. Please try again.', 'danger');
         }
     };
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
 
     return (
         <Fragment>
@@ -104,14 +130,18 @@ const Login = ({ login }) => {
                                 Role
                             </label>
                             <select
-                                name="roles"
-                                value={roles}
+                                name="role"
+                                value={role}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border rounded-md"
                                 required
                             >
-                                <option value="employee">Employee</option>
-                                <option value="admin">Admin</option>
+                                <option value="">Select Role</option>
+                                {roles.map((role) => (
+                                    <option key={role._id} value={role.name}>
+                                        {role.name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <p className="my-1 pb-5 text-xs font-semibold text-left">

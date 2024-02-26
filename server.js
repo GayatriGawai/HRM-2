@@ -26,6 +26,7 @@ app.use('/api/attendance', require('./routes/api/attendance.api'));
 app.use('/api/leave', require('./routes/api/leave.api'));
 app.use('/api/timesheet', require('./routes/api/timesheet.api'));
 app.use('/api/module', require('./routes/api/module.api'));
+app.use('/api/roles', require('./routes/api/roles.api'));
 app.use('/api/permission', require('./routes/api/permissions.api'));
 
 const PORT = process.env.PORT || 5000;

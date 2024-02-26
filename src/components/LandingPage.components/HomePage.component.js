@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
-import NavBar from '../Navigation/nav-bar.component';
+import Sidebar from '../Navigation/sidebar';
 const HomePage = () => {
     return (
         <Fragment>
-            <NavBar />
-            <div>This is home page ✌️</div>
+            <Sidebar />
         </Fragment>
     );
 };

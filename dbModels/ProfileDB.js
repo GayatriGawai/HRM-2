@@ -10,6 +10,10 @@ const EmployeeProfileSchema = new mongoose.Schema({
         required: true,
         lowercase: true,
     },
+    role: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Role',
+    },
     lastName: {
         type: String,
         required: true,
@@ -111,10 +115,6 @@ const EmployeeProfileSchema = new mongoose.Schema({
         required: true,
     },
 
-    isAdmin: {
-        type: Boolean,
-        required: true,
-    },
     dob: {
         type: Date,
         required: true,
