@@ -69,4 +69,32 @@ router.get('/allowed-modules', authMiddleware, async (req, res) => {
     }
 });
 
+// GET allowed modules actions for the logged-in user
+router.get('/allowed-actions', authMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const permissions = await Permission.findOne({ roleID: user.role });
+        if (!permissions) {
+            return res.status(404).json({ message: 'Permissions not found' });
+        }
+
+        // Extract allowed actions for each module
+        const allowedModuleActions = {};
+        for (const moduleId in permissions.permissions) {
+            const actions = permissions.permissions[moduleId].actions;
+            allowedModuleActions[moduleId] = actions;
+        }
+
+        res.json({ allowedModuleActions });
+    } catch (error) {
+        console.error('Error fetching allowed modules actions:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 module.exports = router;

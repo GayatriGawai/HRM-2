@@ -73,10 +73,9 @@ const Login = ({ login }) => {
             const { token } = responseData;
             localStorage.setItem('jwtSecret', token);
             navigate('/home');
-            setAlert('Logged in successfully', 'success');
         } catch (error) {
             console.error('Error during login:', error.message);
-            setAlert('Error during login. Please try again.', 'danger');
+            alert('Error during login. Please try again.');
         }
     };
 
@@ -86,7 +85,7 @@ const Login = ({ login }) => {
 
     return (
         <Fragment>
-            <div className="container bg bg-yellow-600 mx-auto mt-16">
+            <div className="container mx-auto mt-16">
                 <section className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
                     <h2 className="text-2xl font-semibold mb-4 font-bold text-left">
                         Sign In
@@ -144,16 +143,6 @@ const Login = ({ login }) => {
                                 ))}
                             </select>
                         </div>
-                        <p className="my-1 pb-5 text-xs font-semibold text-left">
-                            Already have an account?
-                            <Link
-                                to="/register"
-                                className="hover:text-blue-400 hover:underline "
-                            >
-                                {'  '}
-                                Sign Up
-                            </Link>
-                        </p>
                         <button
                             type="submit"
                             className="bg-yellow-600 hover:bg-yellow-500 font-bold py-2 px-4 rounded"

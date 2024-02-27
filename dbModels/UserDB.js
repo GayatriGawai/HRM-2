@@ -1,8 +1,15 @@
+//It is a login schema only for Login
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
+    profileId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Profile',
+    },
     email: {
+        //Its an official email address
         type: String,
         required: true,
         unique: true,

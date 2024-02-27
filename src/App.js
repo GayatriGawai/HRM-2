@@ -6,8 +6,9 @@ import Login from './components/auth.components/Login.component';
 import Register from './components/auth.components/Register.component';
 import HomePage from './components/LandingPage.components/HomePage.component';
 import RoleForm from './components/roles_and_permissions/role.form';
-import Alert from './layout/Alert';
 import LandingPage from './components/LandingPage.components/LandingPage.component';
+import User from './components/UserComponents/user.component';
+import Profile from './components/ProfileComponent/profile.component';
 
 const App = () => {
     return (
@@ -20,6 +21,8 @@ const App = () => {
                         <Route path="/register" element={<Register />} />
                         <Route path="/home" element={<HomePage />} />
                         <Route path="/role" element={<RoleForm />} />
+                        <Route path="/home/user" element={<User />} />
+                        <Route path="/home/profile" element={<Profile />} />
                     </Routes>
                 </Router>
             </Fragment>

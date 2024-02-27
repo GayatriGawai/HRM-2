@@ -11,12 +11,6 @@ const LandingPage = () => {
                 </h1>
                 <div className="flex space-x-4">
                     <Link
-                        to="/register"
-                        className="py-2 px-4 bg-yellow-500 font-semibold text-white hover:text-black  rounded-md hover:bg-yellow-600 transition duration-300"
-                    >
-                        Sign up
-                    </Link>
-                    <Link
                         to="/login"
                         className="py-2 px-4 bg-yellow-500 font-semibold text-white hover:text-black rounded-md hover:bg-yellow-600 transition duration-300"
                     >

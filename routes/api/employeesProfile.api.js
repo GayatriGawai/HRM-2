@@ -69,7 +69,6 @@ router.post(
                 position,
                 status,
                 salary,
-                isAdmin,
                 dob,
                 attendance,
             } = req.body;
@@ -100,7 +99,7 @@ router.post(
                 position,
                 status: status || 'Trainee',
                 salary,
-                isAdmin,
+
                 dob,
                 attendance,
             };
@@ -260,3 +259,13 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 module.exports = router;
 
 //==================================================================================================================================================================================================
+
+router.post('/profiles', async (req, res) => {
+    try {
+        const profile = new Employee(req.body);
+        await profile.save();
+        res.status(201).send(profile);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});

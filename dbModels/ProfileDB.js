@@ -1,18 +1,14 @@
 const mongoose = require('mongoose');
 
 const EmployeeProfileSchema = new mongoose.Schema({
-    employeeID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+    role: {
+        type: Object,
+        ref: 'Role',
     },
     firstName: {
         type: String,
         required: true,
         lowercase: true,
-    },
-    role: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Role',
     },
     lastName: {
         type: String,
@@ -24,12 +20,16 @@ const EmployeeProfileSchema = new mongoose.Schema({
         required: true,
     },
 
-    emailAddress: {
+    email: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true,
         unique: true,
         lowercase: true,
+    },
+    password: {
+        type: String,
+        required: true,
     },
     skills: {
         type: [String],
@@ -105,7 +105,7 @@ const EmployeeProfileSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Trainee', 'Regular Employee', 'Terminated', 'Absconded'],
+        enum: ['Trainee', 'Regular-Employee', 'Terminated', 'Absconded'],
         default: 'Trainee',
         required: true,
     },
