@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const EmployeeProfileSchema = new mongoose.Schema({
     role: {
-        type: Object,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Role',
     },
     firstName: {
@@ -21,16 +21,12 @@ const EmployeeProfileSchema = new mongoose.Schema({
     },
 
     email: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        type:String,
         required: true,
         unique: true,
-        lowercase: true,
+      
     },
-    password: {
-        type: String,
-        required: true,
-    },
+    
     skills: {
         type: [String],
         required: true,
