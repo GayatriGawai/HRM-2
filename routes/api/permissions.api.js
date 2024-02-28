@@ -37,6 +37,39 @@ router.post('/role', async (req, res) => {
     }
 });
 
+// Updating the role permissions by the IsD
+
+router.put('/role/:id/permissions', async (req, res) => {
+    try {
+        const roleId = req.params.id;
+        const { permissions } = req.body;
+
+        // Check if the role exists
+        const role = await Role.findById(roleId);
+        if (!role) {
+            return res.status(404).json({ message: 'Role not found' });
+        }
+
+        // Update permissions for the role
+        const existingPermission = await Permission.findOne({ roleID: roleId });
+        if (existingPermission) {
+            existingPermission.permissions = permissions;
+            await existingPermission.save();
+        } else {
+            const permission = new Permission({
+                roleID: roleId,
+                permissions,
+            });
+            await permission.save();
+        }
+
+        res.status(200).json({ message: 'Permissions updated successfully' });
+    } catch (error) {
+        console.error('Error updating permissions for role:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 // GET allowed modules for the logged-in user
 router.get('/allowed-modules', authMiddleware, async (req, res) => {
     try {

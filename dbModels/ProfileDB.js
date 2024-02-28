@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const EmployeeProfileSchema = new mongoose.Schema({
+    empId: {
+        type: mongoose.Schema.Types.ObjectId,
+    },
     role: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role',
@@ -20,13 +23,11 @@ const EmployeeProfileSchema = new mongoose.Schema({
         required: true,
     },
 
-    email: {
-        type:String,
+    emailAddress: {
+        type: String,
         required: true,
-        unique: true,
-      
     },
-    
+
     skills: {
         type: [String],
         required: true,
