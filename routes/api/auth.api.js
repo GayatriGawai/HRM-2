@@ -6,6 +6,7 @@ const config = require('config');
 const { check, validationResult } = require('express-validator');
 const EmployeeUserDB = require('../../dbModels/UserDB');
 const Role = require('../../dbModels/rolesDB');
+const authMiddleware = require('../../middleware/authMiddleware');
 
 // @route   POST /api/login
 // @desc    Authenticate user and get token
@@ -123,5 +124,25 @@ router.post(
         }
     }
 );
+
+//==================================================================================
+
+// You will have to provide the auth token in the headers of the postman to test it
+//@route     GET api/auth
+//@desc      Test route
+//@access    Public
+router.get('/', authMiddleware, async (req, res) => {
+    try {
+        const user = await EmployeeUserDB.findById(req.user.id).select(
+            '-password'
+        );
+        res.json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+//==================================================================================
 
 module.exports = router;

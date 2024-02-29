@@ -2,8 +2,10 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { connect } from 'react-redux';
-import { setAlert } from '../../actions/alert';
+
 import { login } from '../../actions/auth.actions/login.action';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = ({ login }) => {
     const navigate = useNavigate();
@@ -32,7 +34,7 @@ const Login = ({ login }) => {
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching roles:', error.message);
-                setAlert('Error fetching roles. Please try again.', 'danger');
+                toast.error('Error fetching roles. Please try again.');
             }
         };
 
@@ -75,12 +77,16 @@ const Login = ({ login }) => {
             navigate('/home');
         } catch (error) {
             console.error('Error during login:', error.message);
-            alert('Error during login. Please try again.');
+            toast.error('Error during login. Please try again.');
         }
     };
 
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
+                <i className="fa fa-spinner fa-spin text-5xl text-yellow-400"></i>
+            </div>
+        );
     }
 
     return (
@@ -153,6 +159,7 @@ const Login = ({ login }) => {
                     </form>
                 </section>
             </div>
+            <ToastContainer />
         </Fragment>
     );
 };

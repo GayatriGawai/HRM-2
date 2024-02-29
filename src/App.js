@@ -9,6 +9,14 @@ import RoleForm from './components/roles_and_permissions/role.form';
 import LandingPage from './components/LandingPage.components/LandingPage.component';
 import User from './components/UserComponents/user.component';
 import Profile from './components/ProfileComponent/profile.component';
+import ProfileList from './components/ProfileComponent/ProfileList';
+import setAuthToken from './utils/setAuthtoken';
+import AddEducation from './components/ProfileComponent/AddEducation';
+import AddExperience from './components/ProfileComponent/AddExperience';
+
+if (localStorage.token) {
+    setAuthToken(localStorage.token);
+}
 
 const App = () => {
     return (
@@ -22,7 +30,13 @@ const App = () => {
                         <Route path="/home" element={<HomePage />} />
                         <Route path="/roles" element={<RoleForm />} />
                         <Route path="/user" element={<User />} />
-                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/profile" element={<ProfileList />} />
+                        <Route
+                            path="/profile/addProfile"
+                            element={<Profile />}
+                        />
+                        <Route path="/add-edu" element={<AddEducation />} />
+                        <Route path="/add-exp" element={<AddExperience />} />
                     </Routes>
                 </Router>
             </Fragment>

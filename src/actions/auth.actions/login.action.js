@@ -46,6 +46,8 @@ export const login = (email, password, roles) => async (dispatch) => {
 //LOGOUT CLEAR PROFILE
 
 export const logout = () => (dispatch) => {
+    dispatch(setAlert('Logout successfull', 'success'));
+
     dispatch({ type: CLEAR_PROFILE });
     dispatch({ type: LOGOUT });
 };

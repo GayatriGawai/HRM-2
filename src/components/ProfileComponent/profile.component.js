@@ -1,6 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 import Sidebar from '../Navigation/sidebar';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AddEducation from './AddEducation';
+import AddExperience from './AddExperience';
 
 const Profile = () => {
     const [roles, setRoles] = useState([]);
@@ -20,7 +24,7 @@ const Profile = () => {
         dob: '',
     });
 
-    const handleChange = (e) => {
+    const handleChange = (e, data) => {
         const { name, value } = e.target;
 
         let newValue = value;
@@ -29,9 +33,8 @@ const Profile = () => {
         if (name === 'salary' && !isNaN(value)) {
             newValue = parseInt(value);
         }
-        setFormData({ ...formData, [name]: newValue });
 
-        // console.log(formData);
+        setFormData({ ...formData, [name]: data ? data : newValue });
     };
 
     const handleSubmit = async (e) => {
@@ -88,7 +91,7 @@ const Profile = () => {
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching roles:', error.message);
-                alert('Error fetching roles. Please try again.');
+                toast.error('Error fetching roles. Please try again.');
             }
         };
 
@@ -97,7 +100,11 @@ const Profile = () => {
 
     console.log(formData);
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
+                <i className="fa fa-spinner fa-spin text-5xl text-yellow-400"></i>
+            </div>
+        );
     }
     return (
         <Fragment>
@@ -109,8 +116,11 @@ const Profile = () => {
                     <h2 className="text-2xl font-semibold mb-6">
                         Create Employee
                     </h2>
-                    <form onSubmit={handleSubmit} className="flex-1">
-                        <div className="mb-4">
+                    <form
+                        onSubmit={handleSubmit}
+                        className="flex-1 grid grid-cols-2 gap-8"
+                    >
+                        <div className="mb-4 col-span-2">
                             <label className="text-left block text-gray-700 text-sm font-bold mb-2">
                                 Role
                             </label>
@@ -217,18 +227,41 @@ const Profile = () => {
                             >
                                 Gender
                             </label>
-                            <select
-                                id="gender"
-                                name="gender"
-                                value={formData.gender}
-                                onChange={handleChange}
-                                className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
-                            >
-                                <option value="">Select Gender</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
+
+                            <div className="flex justify-start items-center">
+                                <input
+                                    type="radio"
+                                    id="male"
+                                    name="gender"
+                                    value="Male"
+                                    checked={formData.gender === 'Male'}
+                                    onChange={handleChange}
+                                    className="mr-2"
+                                />
+                                <label htmlFor="male">Male</label>
+
+                                <input
+                                    type="radio"
+                                    id="female"
+                                    name="gender"
+                                    value="Female"
+                                    checked={formData.gender === 'Female'}
+                                    onChange={handleChange}
+                                    className="mr-2 ml-4"
+                                />
+                                <label htmlFor="female">Female</label>
+
+                                <input
+                                    type="radio"
+                                    id="other"
+                                    name="gender"
+                                    value="Other"
+                                    checked={formData.gender === 'Other'}
+                                    onChange={handleChange}
+                                    className="mr-2 ml-4"
+                                />
+                                <label htmlFor="other">Other</label>
+                            </div>
                         </div>
                         <div className="mb-4">
                             <label
@@ -301,6 +334,17 @@ const Profile = () => {
                                 className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
                             />
                         </div>
+                        <AddEducation
+                            onChange={(educationData) =>
+                                handleChange(null, educationData)
+                            }
+                        />
+
+                        <AddExperience
+                            onChange={(experienceData) =>
+                                handleChange(null, experienceData)
+                            }
+                        />
                         <div className="flex justify-end">
                             <button
                                 type="submit"
@@ -312,6 +356,8 @@ const Profile = () => {
                     </form>
                 </div>
             </div>
+
+            <ToastContainer />
         </Fragment>
     );
 };

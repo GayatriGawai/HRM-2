@@ -43,7 +43,7 @@ const employees = (state = initialState, action) => {
         case CREATE_PROFILE_ERROR:
             return {
                 ...state,
-                error: payload,
+                error: action.error,
                 loading: false,
             };
         case DELETE_EMPLOYEE_PROFILE:
@@ -52,6 +52,7 @@ const employees = (state = initialState, action) => {
                 ...state,
                 profile: null,
                 loading: false,
+                error: null,
             };
 
         default:
