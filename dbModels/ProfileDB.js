@@ -40,7 +40,7 @@ const EmployeeProfileSchema = new mongoose.Schema({
 
     education: [
         {
-            school: {
+            university: {
                 type: String,
                 required: true,
             },

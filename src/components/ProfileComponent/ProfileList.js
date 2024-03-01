@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../Navigation/sidebar';
 
 const ProfileList = () => {
     const [loading, setLoading] = useState(true);
@@ -38,14 +39,16 @@ const ProfileList = () => {
     }
     return (
         <Fragment>
-            <div>
-                {loading ? (
-                    <div className="fixed transform -translate-x-1/2 -translate-y-1/2 z-50">
-                        <i className="fa fa-spinner fa-spin text-5xl text-yellow-400"></i>
+            <div className="grid grid-cols-1 md:grid-cols-5 grid-rows-5 gap-4">
+                <div className="md:col-span-1 md:row-span-5">
+                    <div className="flex">
+                        <Sidebar />
                     </div>
-                ) : (
-                    <div className="container mx-auto p-4">
-                        <h2 className="text-xl font-semibold text-2xl pt-14">
+                </div>
+
+                <div className="col-span-1 md:col-span-4 row-span-5">
+                    <div className="flex-1 bg-white p-4 md:p-10 flex flex-col">
+                        <h2 className="text-xl font-semibold text-2xl pt-4 md:pt-14">
                             <i className="fas fa-list"> </i> Employee List
                         </h2>
                         <div className="container">
@@ -107,9 +110,10 @@ const ProfileList = () => {
                             </div>
                         </div>
                     </div>
-                )}
-                <ToastContainer />
+                </div>
             </div>
+
+            <ToastContainer />
         </Fragment>
     );
 };

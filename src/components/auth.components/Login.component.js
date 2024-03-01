@@ -47,9 +47,10 @@ const Login = ({ login }) => {
 
     const validateLogin = async (e) => {
         e.preventDefault();
-        login(email, password, role);
 
         try {
+            await login(email, password, role);
+
             const response = await fetch(
                 'http://localhost:5000/api/auth/login',
                 {

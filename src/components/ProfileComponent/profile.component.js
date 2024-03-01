@@ -1,3 +1,5 @@
+//Component to create the profile for employee
+
 import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 import Sidebar from '../Navigation/sidebar';
@@ -22,58 +24,55 @@ const Profile = () => {
         status: '',
         salary: '',
         dob: '',
+        education: [],
+        experience: [],
     });
 
-    const handleChange = (e, data) => {
+    const [isAddEducationOpen, setIsAddEducationOpen] = useState(false);
+    const [isAddExperienceOpen, setIsAddExperienceOpen] = useState(false);
+
+    const onAddEducation = (newEducation) => {
+        setFormData({
+            ...formData,
+            education: [...formData.education, newEducation],
+        });
+    };
+
+    const handleChange = (e) => {
         const { name, value } = e.target;
-
-        let newValue = value;
-        // As we have declared the salary as number, we will have to click that bar for multiple time
-        // to make it easy we can convert the string to number
-        if (name === 'salary' && !isNaN(value)) {
-            newValue = parseInt(value);
-        }
-
-        setFormData({ ...formData, [name]: data ? data : newValue });
+        setFormData({ ...formData, [name]: value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const selectedRole = roles.find(
-                (role) => role.name === formData.role
-            );
-
-            if (!selectedRole) {
-                throw new Error('Selected role not found');
-            }
-            const formDataWithRoleId = {
-                ...formData,
-                role: selectedRole._id,
-            };
+            const token = localStorage.getItem('jwtSecret');
             const res = await axios.post(
-                'http://localhost:5000/api/profile/profiles',
-                formDataWithRoleId
-            );
-            console.log('Employee  Profile created:', res.data);
+                'http://localhost:5000/api/profile/addProfile',
 
+                { method: 'POST', headers: { 'x-auth-token': token } },
+                formData
+            );
+            console.log('Employee Profile created:', res.data);
+
+            // Clear form data after submission
             setFormData({
                 role: '',
                 firstName: '',
                 lastName: '',
                 phone: '',
-                emailAddress: '',
-                password: '',
+                email: '',
                 skills: '',
                 gender: '',
                 position: '',
                 status: '',
                 salary: '',
                 dob: '',
+                education: [],
+                experience: [],
             });
         } catch (error) {
             console.error('Error creating employee:', error);
-            console.log(formData);
         }
     };
 
@@ -91,14 +90,12 @@ const Profile = () => {
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching roles:', error.message);
-                toast.error('Error fetching roles. Please try again.');
             }
         };
 
         fetchRoles();
     }, []);
 
-    console.log(formData);
     if (loading) {
         return (
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
@@ -109,19 +106,22 @@ const Profile = () => {
     return (
         <Fragment>
             <div className="flex">
-                <div className="w-1/4 flex">
+                <div className="flex row-span-6">
                     <Sidebar />
                 </div>
-                <div className="flex-1 bg-white p-10 flex flex-col">
+                <div className="flex-1 bg-white p-10 flex flex-col col-span-2">
                     <h2 className="text-2xl font-semibold mb-6">
                         Create Employee
                     </h2>
                     <form
                         onSubmit={handleSubmit}
-                        className="flex-1 grid grid-cols-2 gap-8"
+                        className="grid grid-cols-2 gap-4"
                     >
                         <div className="mb-4 col-span-2">
-                            <label className="text-left block text-gray-700 text-sm font-bold mb-2">
+                            <label
+                                className="block text-sm font-bold text-gray-700 mb-2"
+                                htmlFor="role"
+                            >
                                 Role
                             </label>
                             <select
@@ -228,7 +228,7 @@ const Profile = () => {
                                 Gender
                             </label>
 
-                            <div className="flex justify-start items-center">
+                            <div className="flex justify-start items-center mb-4">
                                 <input
                                     type="radio"
                                     id="male"
@@ -334,29 +334,73 @@ const Profile = () => {
                                 className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
                             />
                         </div>
-                        <AddEducation
-                            onChange={(educationData) =>
-                                handleChange(null, educationData)
-                            }
-                        />
+                        <button
+                            type="button"
+                            onClick={() => setIsAddEducationOpen(true)}
+                            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                        >
+                            Add Education
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setIsAddExperienceOpen(true)}
+                            className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+                        >
+                            Add Experience
+                        </button>
 
-                        <AddExperience
-                            onChange={(experienceData) =>
-                                handleChange(null, experienceData)
-                            }
-                        />
-                        <div className="flex justify-end">
-                            <button
-                                type="submit"
-                                className="bg-yellow-500 hover:bg-yellow-600 mt-5 hover:text-black text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            >
-                                Create Profile
-                            </button>
-                        </div>
+                        <button
+                            type="submit"
+                            className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                            Create Profile
+                        </button>
                     </form>
+                    {/* Popup for Add Education */}
+                    {isAddEducationOpen && (
+                        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+                            <div className="bg-white p-8 rounded shadow-lg">
+                                <AddEducation
+                                    onAddEducation={(newEducation) => {
+                                        setFormData({
+                                            ...formData,
+                                            education: [
+                                                ...formData.education,
+                                                newEducation,
+                                            ],
+                                        });
+                                        setIsAddEducationOpen(false);
+                                    }}
+                                    onClose={() => setIsAddEducationOpen(false)}
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Popup for Add Experience */}
+                    {isAddExperienceOpen && (
+                        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+                            <div className="bg-white p-8 rounded shadow-lg">
+                                <AddExperience
+                                    onAddExperience={(newExperience) => {
+                                        setFormData({
+                                            ...formData,
+                                            experience: [
+                                                ...formData.experience,
+                                                newExperience,
+                                            ],
+                                        });
+                                        setIsAddExperienceOpen(false);
+                                    }}
+                                    onClose={() =>
+                                        setIsAddExperienceOpen(false)
+                                    }
+                                />
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
-
             <ToastContainer />
         </Fragment>
     );

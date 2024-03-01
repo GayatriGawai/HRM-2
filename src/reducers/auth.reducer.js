@@ -12,6 +12,7 @@ const storedToken = localStorage.getItem('token');
 const initialState = {
     token: storedToken ? storedToken : null,
     loading: true,
+    user: null,
     error: {},
     isAuthenticated: null,
 };

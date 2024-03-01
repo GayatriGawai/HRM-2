@@ -9,7 +9,7 @@ const checkPermission = require('../../middleware/permissionsMiddleware');
 // @desc    Create a new profile
 // @access  Private
 router.post(
-    '/profiles',
+    '/addProfile',
     authMiddleware,
     checkPermission(['create']),
     async (req, res) => {

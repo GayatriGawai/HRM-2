@@ -22,32 +22,28 @@ export const login = (email, password, roles) => async (dispatch) => {
             body,
             config
         );
-        console.log('Response:', res);
+        console.log('Response:', res.data);
 
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data,
-            loading: false,
         });
+        dispatch(setAlert('Login success', 'success')); // Optionally add success alert
     } catch (err) {
         const errors = err.response.data.errors;
         if (errors) {
             errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
         }
-        console.log(err);
 
         dispatch({
             type: LOGIN_FAIL,
-            payload: err.response.data.errors,
+            payload: errors, // Pass the errors to the payload
         });
     }
 };
 
-//LOGOUT CLEAR PROFILE
-
 export const logout = () => (dispatch) => {
-    dispatch(setAlert('Logout successfull', 'success'));
-
+    dispatch(setAlert('Logout successful', 'success'));
     dispatch({ type: CLEAR_PROFILE });
     dispatch({ type: LOGOUT });
 };
