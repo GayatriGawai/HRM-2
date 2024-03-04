@@ -7,8 +7,20 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddEducation from './AddEducation';
 import AddExperience from './AddExperience';
+import mongoose from 'mongoose';
 
 const Profile = () => {
+    const [educationData, setEducationData] = useState([]);
+    const [experienceData, setExperienceData] = useState([]);
+
+    const handleAddEducation = (data) => {
+        setEducationData([...educationData, data]);
+    };
+
+    const handleAddExperience = (data) => {
+        setExperienceData([...experienceData, data]);
+    };
+
     const [roles, setRoles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({
@@ -17,7 +29,6 @@ const Profile = () => {
         lastName: '',
         phone: '',
         email: '',
-        password: '',
         skills: '',
         gender: '',
         position: '',
@@ -31,29 +42,26 @@ const Profile = () => {
     const [isAddEducationOpen, setIsAddEducationOpen] = useState(false);
     const [isAddExperienceOpen, setIsAddExperienceOpen] = useState(false);
 
-    const onAddEducation = (newEducation) => {
-        setFormData({
-            ...formData,
-            education: [...formData.education, newEducation],
-        });
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('jwtSecret');
-            const res = await axios.post(
-                'http://localhost:5000/api/profile/addProfile',
 
-                { method: 'POST', headers: { 'x-auth-token': token } },
-                formData
+            const roleId = new mongoose.Types.ObjectId(formData.role.trim());
+            const dataToSend = { ...formData, role: roleId };
+
+            const response = await axios.post(
+                'http://localhost:5000/api/profile/addProfile',
+                dataToSend,
+                {
+                    headers: {
+                        'x-auth-token': token,
+                        'Content-Type': 'application/json',
+                    },
+                }
             );
-            console.log('Employee Profile created:', res.data);
+
+            console.log('Employee Profile created:', response.data);
 
             // Clear form data after submission
             setFormData({
@@ -71,6 +79,8 @@ const Profile = () => {
                 education: [],
                 experience: [],
             });
+            setEducationData([]);
+            setExperienceData([]);
         } catch (error) {
             console.error('Error creating employee:', error);
         }
@@ -95,6 +105,11 @@ const Profile = () => {
 
         fetchRoles();
     }, []);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
     if (loading) {
         return (
@@ -334,71 +349,19 @@ const Profile = () => {
                                 className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
                             />
                         </div>
-                        <button
-                            type="button"
-                            onClick={() => setIsAddEducationOpen(true)}
-                            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-                        >
-                            Add Education
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => setIsAddExperienceOpen(true)}
-                            className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
-                        >
-                            Add Experience
-                        </button>
-
-                        <button
-                            type="submit"
-                            className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                            Create Profile
-                        </button>
                     </form>
-                    {/* Popup for Add Education */}
-                    {isAddEducationOpen && (
-                        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
-                            <div className="bg-white p-8 rounded shadow-lg">
-                                <AddEducation
-                                    onAddEducation={(newEducation) => {
-                                        setFormData({
-                                            ...formData,
-                                            education: [
-                                                ...formData.education,
-                                                newEducation,
-                                            ],
-                                        });
-                                        setIsAddEducationOpen(false);
-                                    }}
-                                    onClose={() => setIsAddEducationOpen(false)}
-                                />
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Popup for Add Experience */}
-                    {isAddExperienceOpen && (
-                        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
-                            <div className="bg-white p-8 rounded shadow-lg">
-                                <AddExperience
-                                    onAddExperience={(newExperience) => {
-                                        setFormData({
-                                            ...formData,
-                                            experience: [
-                                                ...formData.experience,
-                                                newExperience,
-                                            ],
-                                        });
-                                        setIsAddExperienceOpen(false);
-                                    }}
-                                    onClose={() =>
-                                        setIsAddExperienceOpen(false)
-                                    }
-                                />
-                            </div>
-                        </div>
-                    )}
+                    {/* AddEducation component */}
+                    <AddEducation onAddEducation={handleAddEducation} />
+                    {/* AddExperience component */}
+                    <AddExperience onAddExperience={handleAddExperience} />
+                    {/* Button for creating profile */}
+                    <button
+                        type="submit"
+                        onClick={handleSubmit}
+                        className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
+                        Create Profile
+                    </button>
                 </div>
             </div>
             <ToastContainer />

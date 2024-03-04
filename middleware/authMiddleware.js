@@ -1,5 +1,3 @@
-// authMiddleware.js
-
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const EmployeeUserDB = require('../dbModels/UserDB'); // Assuming you have a User model

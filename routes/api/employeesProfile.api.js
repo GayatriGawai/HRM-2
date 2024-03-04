@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Profile = require('../../dbModels/ProfileDB');
 const authMiddleware = require('../../middleware/authMiddleware');
-const Permission = require('../../dbModels/permissionsDB');
 const checkPermission = require('../../middleware/permissionsMiddleware');
 
 // @route   POST /api/profiles
@@ -23,6 +22,7 @@ router.post(
         } catch (error) {
             console.error('Error creating profile:', error);
             res.status(500).json({ error: 'Server error' });
+            console.log(error);
         }
     }
 );

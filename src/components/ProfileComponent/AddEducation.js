@@ -1,8 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import axios from 'axios';
+import React, { Fragment, useEffect, useState } from 'react';
 
 const AddEducation = ({ onAddEducation, onClose }) => {
     // State to manage form data
-    const [formData, setFormData] = useState({
+    const [education, setEducation] = useState({
         school: '',
         degree: '',
         fieldofstudy: '',
@@ -15,19 +16,18 @@ const AddEducation = ({ onAddEducation, onClose }) => {
     // Function to handle changes in form fields
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
+        setEducation({
+            ...education,
             [name]: type === 'checkbox' ? checked : value,
         });
     };
 
-    // Function to handle adding education
-    const handleAddEducation = () => {
-        // Pass education data to parent component
-        onAddEducation(formData);
-        // Reset form fields after adding education
-        setFormData({
-            school: '',
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onAddEducation(education);
+        // You can clear the form fields here if needed
+        setEducation({
+            university: '',
             degree: '',
             fieldofstudy: '',
             from: '',
@@ -36,12 +36,12 @@ const AddEducation = ({ onAddEducation, onClose }) => {
             description: '',
         });
     };
-
     return (
         <Fragment>
             {/* Education form */}
             <div className="bg-white p-4 mb-4 rounded-lg shadow">
                 <h2 className="text-lg font-semibold mb-4">Add Education</h2>
+                <form onSubmit={handleSubmit}></form>
                 <div className="grid grid-cols-2 gap-4">
                     {/* School input */}
                     <div>
@@ -51,7 +51,7 @@ const AddEducation = ({ onAddEducation, onClose }) => {
                         <input
                             type="text"
                             name="school"
-                            value={formData.school}
+                            value={education.school}
                             onChange={handleChange}
                             className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
                         />
@@ -64,7 +64,7 @@ const AddEducation = ({ onAddEducation, onClose }) => {
                         <input
                             type="text"
                             name="degree"
-                            value={formData.degree}
+                            value={education.degree}
                             onChange={handleChange}
                             className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
                         />
@@ -77,7 +77,7 @@ const AddEducation = ({ onAddEducation, onClose }) => {
                         <input
                             type="text"
                             name="fieldofstudy"
-                            value={formData.fieldofstudy}
+                            value={education.fieldofstudy}
                             onChange={handleChange}
                             className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
                         />
@@ -90,7 +90,7 @@ const AddEducation = ({ onAddEducation, onClose }) => {
                         <textarea
                             id="description"
                             name="description"
-                            value={formData.description}
+                            value={education.description}
                             onChange={handleChange}
                             className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
                         ></textarea>
@@ -103,7 +103,7 @@ const AddEducation = ({ onAddEducation, onClose }) => {
                         <input
                             type="date"
                             name="from"
-                            value={formData.from}
+                            value={education.from}
                             onChange={handleChange}
                             className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
                         />
@@ -116,7 +116,7 @@ const AddEducation = ({ onAddEducation, onClose }) => {
                         <input
                             type="date"
                             name="to"
-                            value={formData.to}
+                            value={education.to}
                             onChange={handleChange}
                             className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
                         />
@@ -129,7 +129,7 @@ const AddEducation = ({ onAddEducation, onClose }) => {
                         <input
                             type="checkbox"
                             name="current"
-                            checked={formData.current}
+                            checked={education.current}
                             onChange={handleChange}
                             className="mt-1 p-2 block rounded-md shadow-sm focus:outline-none focus:border-blue-500"
                         />
@@ -138,7 +138,7 @@ const AddEducation = ({ onAddEducation, onClose }) => {
                     <div className="col-span-2 flex justify-between">
                         <button
                             type="button"
-                            onClick={handleAddEducation}
+                            onClick={handleSubmit}
                             className="bg-yellow-500 justify-start hover:bg-yellow-600 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         >
                             Add Education

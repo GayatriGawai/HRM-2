@@ -12,7 +12,7 @@ import {
 // Action creators for creating, updating, and deleting profiles
 export const createProfile = (profileData) => async (dispatch) => {
     try {
-        const response = await fetch('/api/profiles', {
+        const response = await fetch('/api/addProfile', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
