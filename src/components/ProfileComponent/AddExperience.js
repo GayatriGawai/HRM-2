@@ -1,7 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import axios from 'axios';
+import mongoose from 'mongoose';
 
-const AddExperience = ({ onAddExperience, onClose }) => {
+const AddExperience = ({ onAddExperience, onClose, id }) => {
     const [experience, setExperience] = useState({
         title: '',
         company: '',
@@ -13,26 +14,49 @@ const AddExperience = ({ onAddExperience, onClose }) => {
     });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
+        const newValue = type === 'checkbox' ? checked : value;
+
         setExperience({
             ...experience,
-            [name]: value,
+            [name]: newValue,
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onAddExperience(experience);
-        // You can clear the form fields here if needed
-        setExperience({
-            title: '',
-            company: '',
-            location: '',
-            from: '',
-            to: '',
-            current: false,
-            description: '',
-        });
+        try {
+            const token = localStorage.getItem('jwtSecret');
+
+            const roleId = new mongoose.Types.ObjectId(experience.role); // Change formData to experience
+            const dataToSend = { ...experience, role: roleId }; // Change formData to experience
+
+            const response = await axios.post(
+                `http://localhost:5000/api/expDetails/addExp/${id}`, // Add id
+                dataToSend,
+                {
+                    headers: {
+                        'x-auth-token': token,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            console.log('Employee Profile created:', response.data);
+
+            // You can clear the form fields here if needed
+            setExperience({
+                title: '',
+                company: '',
+                location: '',
+                from: '',
+                to: '',
+                current: false,
+                description: '',
+            });
+        } catch (error) {
+            console.error('Error creating employee profile:', error);
+        }
     };
 
     return (

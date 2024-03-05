@@ -5,22 +5,9 @@ import axios from 'axios';
 import Sidebar from '../Navigation/sidebar';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AddEducation from './AddEducation';
-import AddExperience from './AddExperience';
 import mongoose from 'mongoose';
 
 const Profile = () => {
-    const [educationData, setEducationData] = useState([]);
-    const [experienceData, setExperienceData] = useState([]);
-
-    const handleAddEducation = (data) => {
-        setEducationData([...educationData, data]);
-    };
-
-    const handleAddExperience = (data) => {
-        setExperienceData([...experienceData, data]);
-    };
-
     const [roles, setRoles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({
@@ -73,11 +60,9 @@ const Profile = () => {
                 status: '',
                 salary: '',
                 dob: '',
-                education: [],
-                experience: [],
+                
             });
-            setEducationData([]);
-            setExperienceData([]);
+            
         } catch (error) {
             console.error('Error creating employee:', error);
         }
@@ -145,7 +130,7 @@ const Profile = () => {
                             >
                                 <option value="">Select Role</option>
                                 {roles.map((role) => (
-                                    <option key={role._id} value={role.name}>
+                                    <option key={role._id} value={role._id}>
                                         {role.name}
                                     </option>
                                 ))}
@@ -347,11 +332,7 @@ const Profile = () => {
                             />
                         </div>
                     </form>
-                    {/* AddEducation component */}
-                    <AddEducation onAddEducation={handleAddEducation} />
-                    {/* AddExperience component */}
-                    <AddExperience onAddExperience={handleAddExperience} />
-                    {/* Button for creating profile */}
+                    
                     <button
                         type="submit"
                         onClick={handleSubmit}
