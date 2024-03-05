@@ -18,7 +18,7 @@ module.exports = async function (req, res, next) {
         const userId = decoded.user.id;
 
         // Fetch the user data from the database, populating the 'role' field
-        const user = await EmployeeUserDB.findById(userId).populate('role');
+        const user = await EmployeeUserDB.findById(userId);
 
         if (!user) {
             return res.status(401).json({ msg: 'Invalid token' });

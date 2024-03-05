@@ -3,6 +3,7 @@ const router = express.Router();
 const Profile = require('../../dbModels/ProfileDB');
 const authMiddleware = require('../../middleware/authMiddleware');
 const checkPermission = require('../../middleware/permissionsMiddleware');
+const Role = require('../../dbModels/rolesDB');
 
 // @route   POST /api/profiles
 // @desc    Create a new profile
@@ -49,21 +50,26 @@ router.get(
 // @route   GET /api/profiles/:id
 // @desc    Get a profile by ID
 // @access  Private
-router.get('/profiles/:id', checkPermission(['read']), async (req, res) => {
-    try {
-        const profileId = req.params.id;
-        const profile = await Profile.findById(profileId);
+router.get(
+    '/profiles/:id',
+    authMiddleware,
+    checkPermission(['read']),
+    async (req, res) => {
+        try {
+            const profileId = req.params.id;
+            const profile = await Profile.findById(profileId).populate('role');
 
-        if (!profile) {
-            return res.status(404).json({ error: 'Profile not found' });
+            if (!profile) {
+                return res.status(404).json({ error: 'Profile not found' });
+            }
+
+            res.json(profile);
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+            res.status(500).json({ error: 'Server error' });
         }
-
-        res.json(profile);
-    } catch (error) {
-        console.error('Error fetching profile:', error);
-        res.status(500).json({ error: 'Server error' });
     }
-});
+);
 
 // @route   PUT /api/profiles/:id
 // @desc    Update a profile by ID
@@ -77,7 +83,7 @@ router.put('/profiles/:id', checkPermission(['update']), async (req, res) => {
             profileId,
             updatedProfileData,
             { new: true }
-        );
+        ).populate('role');
 
         if (!updatedProfile) {
             return res.status(404).json({ error: 'Profile not found' });

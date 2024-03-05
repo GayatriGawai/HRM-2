@@ -39,15 +39,12 @@ const Profile = () => {
         experience: [],
     });
 
-    const [isAddEducationOpen, setIsAddEducationOpen] = useState(false);
-    const [isAddExperienceOpen, setIsAddExperienceOpen] = useState(false);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('jwtSecret');
 
-            const roleId = new mongoose.Types.ObjectId(formData.role.trim());
+            const roleId = new mongoose.Types.ObjectId(formData.role);
             const dataToSend = { ...formData, role: roleId };
 
             const response = await axios.post(
