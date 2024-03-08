@@ -60,6 +60,25 @@ const ViewProfile = () => {
                 <p>
                   <span className="font-bold">Role:</span> {profile.role.name}
                 </p>
+                <p>
+                  <span className="font-bold">Phone:</span> {profile.phone}
+                </p>
+                <p>
+                  <span className="font-bold">Email :</span>{" "}
+                  {profile.emailAddress}
+                </p>
+
+                <div>
+                  <h3 className="font-bold">Skills</h3>
+                  <ul>
+                    {profile.skills.map((skill, index) => (
+                      <li key={index}>{skill}</li>
+                    ))}
+                  </ul>
+                </div>
+                <p>
+                  <span className="font-bold">Gender:</span> {profile.gender}
+                </p>
               </div>
               <div>
                 <h3 className="font-bold">Education</h3>
@@ -71,6 +90,19 @@ const ViewProfile = () => {
                     </p>
                     <p>
                       <span className="font-bold">Degree:</span> {edu.degree}
+                    </p>
+                    <p>
+                      <span className="font-bold">Field Of Study:</span> {edu.fieldofstudy}
+                    </p>
+                    <p>
+                      <span className="font-bold">from:</span> {edu.from}
+                    </p>
+                    <p>
+                      <span className="font-bold">to:</span> {edu.to}
+                    </p>
+                   
+                    <p>
+                      <span className="font-bold">Description:</span> {edu.description}
                     </p>
                   </div>
                 ))}
