@@ -13,6 +13,7 @@ import ProfileList from './components/ProfileComponent/ProfileList';
 import setAuthToken from './utils/setAuthtoken';
 import AddEducation from './components/ProfileComponent/AddEducation';
 import AddExperience from './components/ProfileComponent/AddExperience';
+import ViewProfile from './components/ProfileComponent/ViewProfile';
 
 if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -37,6 +38,7 @@ const App = () => {
                         />
                         <Route path="/add-edu" element={<AddEducation />} />
                         <Route path="/add-exp" element={<AddExperience />} />
+                        <Route path="/getProfile/:id" element={<ViewProfile />} />{/*Use this while getting the details by the ID*/}
                     </Routes>
                 </Router>
             </Fragment>

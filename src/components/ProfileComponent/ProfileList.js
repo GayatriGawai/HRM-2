@@ -86,7 +86,7 @@ const ProfileList = () => {
                                                 <td>{index + 1}</td>
                                                 <td>
                                                     <Link
-                                                        to={`/employee/get/${profile._id}`}
+                                                        to={`/getProfile/${profile._id}`}
                                                         className="hover:text-red-700"
                                                     >
                                                         {profile.firstName}{' '}

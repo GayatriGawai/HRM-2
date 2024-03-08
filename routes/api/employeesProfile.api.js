@@ -51,7 +51,7 @@ router.get(
 // @desc    Get a profile by ID
 // @access  Private
 router.get(
-    '/profiles/:id',
+    '/getProfile/:id',
     authMiddleware,
     checkPermission(['read']),
     async (req, res) => {
