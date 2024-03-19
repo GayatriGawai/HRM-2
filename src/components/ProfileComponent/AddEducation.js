@@ -1,7 +1,11 @@
 import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import mongoose from 'mongoose';
 
-const AddEducation = ({ onAddEducation, onClose }) => {
+const AddEducation = (onClose) => {
+    const { id } = useParams();
     // State to manage form data
     const [education, setEducation] = useState({
         school: '',
@@ -22,19 +26,35 @@ const AddEducation = ({ onAddEducation, onClose }) => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onAddEducation(education);
-        // You can clear the form fields here if needed
-        setEducation({
-            university: '',
-            degree: '',
-            fieldofstudy: '',
-            from: '',
-            to: '',
-            current: false,
-            description: '',
-        });
+
+        try {
+            const token = localStorage.getItem('jwtSecret');
+
+            const response = await axios.put(
+                `http://localhost:5000/api/eduDetails/addEdu/${id}`,
+                education,
+                {
+                    header: {
+                        'x-auth-token': token,
+                        'Content-type': 'application/json',
+                    },
+                }
+            );
+            toast.success('Education added');
+            console.log('Education added', response.data);
+        } catch (error) {
+            setEducation({
+                university: '',
+                degree: '',
+                fieldofstudy: '',
+                from: '',
+                to: '',
+                current: false,
+                description: '',
+            });
+        }
     };
     return (
         <Fragment>

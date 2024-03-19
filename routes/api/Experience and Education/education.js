@@ -8,7 +8,7 @@ const router = express.Router();
 router.put(
     '/addEdu/:id',
     authMiddleware,
-    checkPermission(['create']),
+
     [
         check('university', 'School is required').not().isEmpty(),
         check('degree', 'Degree is required').not().isEmpty(),

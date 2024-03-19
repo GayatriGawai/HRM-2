@@ -44,7 +44,7 @@ const Profile = () => {
                     },
                 }
             );
-
+            toast.success('Employee Profile Created please open the list');
             console.log('Employee Profile created:', response.data);
 
             // Clear form data after submission
@@ -60,9 +60,7 @@ const Profile = () => {
                 status: '',
                 salary: '',
                 dob: '',
-                
             });
-            
         } catch (error) {
             console.error('Error creating employee:', error);
         }
@@ -332,7 +330,7 @@ const Profile = () => {
                             />
                         </div>
                     </form>
-                    
+
                     <button
                         type="submit"
                         onClick={handleSubmit}
