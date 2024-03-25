@@ -36,9 +36,13 @@ const App = () => {
                             path="/profile/addProfile"
                             element={<Profile />}
                         />
-                        <Route path="/add-edu" element={<AddEducation />} />
-                        <Route path="/add-exp" element={<AddExperience />} />
-                        <Route path="/getProfile/:id" element={<ViewProfile />} />{/*Use this while getting the details by the ID*/}
+                        <Route
+                            path="/getProfile/:id"
+                            element={<ViewProfile />}
+                        />
+                        {/*Use this while getting the details by the ID*/}
+                        <Route path="/addEdu/:id" element={<AddEducation />} />
+                        <Route path="/addExp/:id" element={<AddExperience />} />
                     </Routes>
                 </Router>
             </Fragment>

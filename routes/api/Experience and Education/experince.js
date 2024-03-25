@@ -8,7 +8,7 @@ const router = express.Router();
 router.put(
     '/addExp/:id',
     authMiddleware,
-    checkPermission(['create']),
+
     [
         check('title', 'Title is required').not().isEmpty(),
         check('company', 'Company is required').not().isEmpty(),
