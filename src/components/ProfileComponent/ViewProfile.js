@@ -38,13 +38,13 @@ const ViewProfile = () => {
 
   return (
     <Fragment>
-      <div className="grid grid-cols-1 md:grid-cols-5 grid-rows-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <div className="md:col-span-1 md:row-span-5">
           <div className="flex">
             <Sidebar />
           </div>
         </div>
-        <div className="md:col-span-4">
+        <div className="md:col-span-3">
           <div className="bg-yellow-200 text-black p-4 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4">Profile Details</h2>
             <div>
@@ -105,7 +105,17 @@ const ViewProfile = () => {
                       <span className="font-bold">Description:</span> {edu.description}
                     </p>
                   </div>
+
+                  
                 ))}
+              </div>
+              <div>
+              <h3 className="font-bold">Experience</h3>
+              {
+                profile.experience.map((exp, index)=>{
+
+                })
+              }
               </div>
             </div>
           </div>
