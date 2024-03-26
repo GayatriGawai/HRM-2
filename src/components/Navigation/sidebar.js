@@ -39,7 +39,11 @@ const Sidebar = () => {
 
     return (
         <Fragment>
-            <nav className="bg-gray-800 w-60 ">
+            <aside
+                id="default-sidebar"
+                className="bg-gray-700 fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+                aria-label="Sidebar"
+            >
                 <div className="flex flex-col justify-between min-h-screen">
                     <div>
                         <div className="flex justify-between items-center p-4">
@@ -52,10 +56,7 @@ const Sidebar = () => {
                         </div>
                         <ul className="flex flex-col">
                             {allowedModules.map((module, index) => (
-                                <li
-                                    key={index}
-                                    className="p-4 hover:bg-gray-700 text-white"
-                                >
+                                <li key={index} className="p-4 text-white">
                                     <Link
                                         to={`/${module.toLowerCase()}`}
                                         className="hover:text-yellow-400"
@@ -77,7 +78,7 @@ const Sidebar = () => {
                         </a>
                     </div>
                 </div>
-            </nav>
+            </aside>
         </Fragment>
     );
 };
