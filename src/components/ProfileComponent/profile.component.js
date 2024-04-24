@@ -100,9 +100,11 @@ const Profile = () => {
     }
     return (
         <Fragment>
-            <div className="flex">
-                <div className="flex row-span-6">
-                    <Sidebar />
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div className="md:col-span-1 md:row-span-5">
+                    <div className="flex">
+                        <Sidebar />
+                    </div>
                 </div>
                 <div className="flex-1 bg-white p-10 flex flex-col col-span-2">
                     <h2 className="text-2xl font-semibold mb-6">

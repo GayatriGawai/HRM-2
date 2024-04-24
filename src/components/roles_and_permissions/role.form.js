@@ -1,6 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 import Sidebar from '../Navigation/sidebar';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RoleForm = () => {
     const [module, setModule] = useState([]);
@@ -76,7 +78,7 @@ const RoleForm = () => {
                     permissions: permissionsData,
                 }
             );
-            alert(response.data.message);
+            toast(response.data.message);
 
             setFormData({
                 name: '',
@@ -84,7 +86,7 @@ const RoleForm = () => {
             });
         } catch (error) {
             console.error('Error creating role:', error);
-            alert('Error creating role');
+            toast.error('Error creating role');
         }
     };
 
@@ -212,6 +214,7 @@ const RoleForm = () => {
                     </form>
                 </div>
             </div>
+            <ToastContainer />
         </Fragment>
     );
 };

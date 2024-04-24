@@ -2,6 +2,8 @@ import React, { Fragment, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../../actions/auth.actions/register.action';
 import { connect } from 'react-redux';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, Link } from 'react-router-dom';
 const Register = () => {
     const dispatch = useDispatch();
@@ -21,7 +23,7 @@ const Register = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            alert('Passwords do not match');
+            toast.error('Passwords do not match');
         } else {
             dispatch(register(email, password, roles));
         }
@@ -112,6 +114,7 @@ const Register = () => {
                     </form>
                 </section>
             </div>
+            <ToastContainer />
         </Fragment>
     );
 };

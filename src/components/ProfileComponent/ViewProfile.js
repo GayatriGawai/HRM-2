@@ -92,13 +92,14 @@ const ViewProfile = () => {
                                 </p>
                                 <div>
                                     <h3 className="font-bold">Skills</h3>
-                                    <ol>
+                                    <ul>
                                         {profile.skills.map((skill, index) => (
                                             <li key={index} className="inline">
+                                                <i className="fas fa-circle text-xs"></i>{' '}
                                                 {skill}{' '}
                                             </li>
                                         ))}
-                                    </ol>
+                                    </ul>
                                 </div>
                             </div>
                             <div>

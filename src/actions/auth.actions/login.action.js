@@ -37,7 +37,7 @@ export const login = (email, password, roles) => async (dispatch) => {
 
         dispatch({
             type: LOGIN_FAIL,
-            payload: errors, // Pass the errors to the payload
+            message: { msgBody: 'Log in failed' }, // Pass the errors to the payload
         });
     }
 };
