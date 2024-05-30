@@ -114,7 +114,7 @@ const EducationForm = ({
                 <button
                     type="button"
                     onClick={addEducation}
-                    className="mt-5 text-yellow-500 text-sm font-semibold flex justify-end"
+                    className="mt-5 text-blue-500 text-sm font-semibold flex justify-end"
                 >
                     Add Education
                 </button>

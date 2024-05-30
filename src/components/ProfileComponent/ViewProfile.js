@@ -33,7 +33,7 @@ const ViewProfile = () => {
     if (loading) {
         return (
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
-                <i className="fa fa-spinner fa-spin text-5xl text-yellow-400"></i>
+                <i className="fa fa-spinner fa-spin text-5xl text-blue-400"></i>
             </div>
         );
     }

@@ -33,7 +33,7 @@ const ProfileList = () => {
     if (loading) {
         return (
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
-                <i className="fa fa-spinner fa-spin text-5xl text-yellow-400"></i>
+                <i className="fa fa-spinner fa-spin text-5xl text-blue-400"></i>
             </div>
         );
     }
@@ -63,7 +63,7 @@ const ProfileList = () => {
                             </div>
                             <div>
                                 <table className="w-full border border-collapse border-gray-300 border-r">
-                                    <thead className="bg-yellow-500 h-10">
+                                    <thead className="bg-blue-500 h-10">
                                         <tr>
                                             <th style={{ width: '20%' }}>
                                                 No.

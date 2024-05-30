@@ -53,7 +53,7 @@ const Sidebar = () => {
                                 <li key={index} className="p-4 text-white">
                                     <Link
                                         to={`/${module.toLowerCase()}`}
-                                        className="hover:text-yellow-400"
+                                        className="hover:text-blue-400"
                                     >
                                         {module}
                                     </Link>
@@ -65,7 +65,7 @@ const Sidebar = () => {
                         <a
                             href="/"
                             onClick={logoutHandler}
-                            className="focus:outline-none hover:text-yellow-400 text-sm"
+                            className="focus:outline-none hover:text-blue-400 text-sm"
                         >
                             <span className="hidden sm:inline">Logout</span>{' '}
                             <i className="fas fa-sign-out-alt sm:hidden"></i>

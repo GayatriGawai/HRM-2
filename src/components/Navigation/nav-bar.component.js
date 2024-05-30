@@ -20,7 +20,7 @@ const NavBar = ({ logout }) => {
                     </button>
                 </div>
 
-                <div className="text-white font-bold p-2 flex hover:text-yellow-400">
+                <div className="text-white font-bold p-2 flex hover:text-blue-400">
                     Insnapsys
                 </div>
 
@@ -28,7 +28,7 @@ const NavBar = ({ logout }) => {
                 <div className="text-white font-semibold p-2 flex ">
                     <a
                         onClick={logoutHandler}
-                        className="focus:outline-none text-white font-semibold bg-black-400 hover:text-black hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:focus:ring-yellow-900"
+                        className="focus:outline-none text-white font-semibold bg-black-400 hover:text-black hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:focus:ring-blue-900"
                     >
                         <span className="hidden sm:inline">Logout</span>{' '}
                         <i className="fas fa-sign-out-alt sm:hidden"></i>
