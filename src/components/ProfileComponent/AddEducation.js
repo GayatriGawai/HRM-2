@@ -1,180 +1,126 @@
-import axios from 'axios';
-import React, { Fragment, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import mongoose from 'mongoose';
+import React, { Fragment } from 'react';
 
-const AddEducation = (onClose) => {
-    const { id } = useParams();
-    // State to manage form data
-    const [education, setEducation] = useState({
-        school: '',
-        degree: '',
-        fieldofstudy: '',
-        from: '',
-        to: '',
-        current: false,
-        description: '',
-    });
-
-    // Function to handle changes in form fields
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setEducation({
-            ...education,
-            [name]: type === 'checkbox' ? checked : value,
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const token = localStorage.getItem('jwtSecret');
-
-            const response = await axios.put(
-                `http://localhost:5000/api/eduDetails/addEdu/${id}`,
-                education,
-                {
-                    header: {
-                        'x-auth-token': token,
-                        'Content-type': 'application/json',
-                    },
-                }
-            );
-            toast.success('Education added');
-            console.log('Education added', response.data);
-        } catch (error) {
-            setEducation({
-                university: '',
-                degree: '',
-                fieldofstudy: '',
-                from: '',
-                to: '',
-                current: false,
-                description: '',
-            });
-        }
-    };
+const EducationForm = ({
+    education,
+    handleChange,
+    addEducation,
+    removeEducation,
+}) => {
     return (
         <Fragment>
-            {/* Education form */}
             <div className="bg-white p-4 mb-4 rounded-lg shadow">
                 <h2 className="text-lg font-semibold mb-4">Add Education</h2>
-                <form onSubmit={handleSubmit}></form>
-                <div className="grid grid-cols-2 gap-4">
-                    {/* School input */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            School
-                        </label>
-                        <input
-                            type="text"
-                            name="school"
-                            value={education.school}
-                            onChange={handleChange}
-                            className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
-                        />
-                    </div>
-                    {/* Degree input */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Degree
-                        </label>
-                        <input
-                            type="text"
-                            name="degree"
-                            value={education.degree}
-                            onChange={handleChange}
-                            className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
-                        />
-                    </div>
-                    {/* Field of study input */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Field of Study
-                        </label>
-                        <input
-                            type="text"
-                            name="fieldofstudy"
-                            value={education.fieldofstudy}
-                            onChange={handleChange}
-                            className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
-                        />
-                    </div>
-                    {/* Description input */}
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Description:
-                        </label>
-                        <textarea
-                            id="description"
-                            name="description"
-                            value={education.description}
-                            onChange={handleChange}
-                            className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
-                        ></textarea>
-                    </div>
-                    {/* From date input */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            From
-                        </label>
-                        <input
-                            type="date"
-                            name="from"
-                            value={education.from}
-                            onChange={handleChange}
-                            className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
-                        />
-                    </div>
-                    {/* To date input */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            To
-                        </label>
-                        <input
-                            type="date"
-                            name="to"
-                            value={education.to}
-                            onChange={handleChange}
-                            className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
-                        />
-                    </div>
-                    {/* Currently studying checkbox */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Currently Studying?
-                        </label>
-                        <input
-                            type="checkbox"
-                            name="current"
-                            checked={education.current}
-                            onChange={handleChange}
-                            className="mt-1 p-2 block rounded-md shadow-sm focus:outline-none focus:border-blue-500"
-                        />
-                    </div>
-                    {/* Button to add education */}
-                    <div className="col-span-2 flex justify-between">
-                        <button
-                            type="button"
-                            onClick={handleSubmit}
-                            className="bg-yellow-500 justify-start hover:bg-yellow-600 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                            Add Education
-                        </button>
+                {education.map((edu, index) => (
+                    <div
+                        key={index}
+                        className="grid grid-cols-2 gap-4"
+                        data-key="education"
+                    >
+                        <div>
+                            <label className="flex text-sm font-medium text-gray-700 mb-1">
+                                University
+                            </label>
+                            <input
+                                type="text"
+                                name="university"
+                                value={edu.university}
+                                onChange={(e) => handleChange(e, index)}
+                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="flex text-sm font-medium text-gray-700 mb-1">
+                                Degree
+                            </label>
+                            <input
+                                type="text"
+                                name="degree"
+                                value={edu.degree}
+                                onChange={(e) => handleChange(e, index)}
+                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="flex text-sm font-medium text-gray-700 mb-1">
+                                Field of Study
+                            </label>
+                            <input
+                                type="text"
+                                name="fieldofstudy"
+                                value={edu.fieldofstudy}
+                                onChange={(e) => handleChange(e, index)}
+                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="flex text-sm font-medium text-gray-700 mb-1">
+                                Description
+                            </label>
+                            <textarea
+                                id="description"
+                                name="description"
+                                value={edu.description}
+                                onChange={(e) => handleChange(e, index)}
+                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                            ></textarea>
+                        </div>
+                        <div>
+                            <label className="flex text-sm font-medium text-gray-700 mb-1">
+                                From
+                            </label>
+                            <input
+                                type="date"
+                                name="from"
+                                value={edu.from}
+                                onChange={(e) => handleChange(e, index)}
+                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="flex text-sm font-medium text-gray-700 mb-1">
+                                To
+                            </label>
+                            <input
+                                type="date"
+                                name="to"
+                                value={edu.to}
+                                onChange={(e) => handleChange(e, index)}
+                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="flex text-sm font-medium text-gray-700 mb-1">
+                                Currently Studying?
+                            </label>
+                            <input
+                                type="checkbox"
+                                name="current"
+                                checked={edu.current}
+                                onChange={(e) => handleChange(e, index)}
+                                className="mt-1 p-2 flex rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                            />
+                        </div>
 
                         <button
-                            onClick={onClose}
-                            className="px-4 py-2 bg-gray-200 flex justify-end text-black rounded-md hover:bg-gray-300 focus:outline-none focus:bg-blue-600"
+                            type="button"
+                            onClick={() => removeEducation(index)}
+                            className="text-red-500 text-sm flex justify-end font-semibold"
                         >
-                            Close
+                            Remove
                         </button>
                     </div>
-                </div>
+                ))}
+
+                <button
+                    type="button"
+                    onClick={addEducation}
+                    className="mt-5 text-yellow-500 text-sm font-semibold flex justify-end"
+                >
+                    Add Education
+                </button>
             </div>
         </Fragment>
     );
 };
 
-export default AddEducation;
+export default EducationForm;

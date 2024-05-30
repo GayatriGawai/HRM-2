@@ -65,7 +65,9 @@ const ProfileList = () => {
                                 <table className="w-full border border-collapse border-gray-300 border-r">
                                     <thead className="bg-yellow-500 h-10">
                                         <tr>
-                                            <th style={{ width: '20%' }}>ID</th>
+                                            <th style={{ width: '20%' }}>
+                                                No.
+                                            </th>
                                             <th style={{ width: '20%' }}>
                                                 Name
                                             </th>

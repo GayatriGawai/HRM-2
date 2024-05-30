@@ -40,27 +40,31 @@ const ViewProfile = () => {
 
     return (
         <Fragment>
-            <div className="grid grid-cols-1 md:grid-cols-5">
+            <div className="grid grid-cols-1 md:grid-cols-5 bg-red-300">
                 <div className="md:col-span-1 md:row-span-5">
                     <div className="flex md:inherit">
                         <Sidebar />
                     </div>
                 </div>
                 <div className="md:col-span-4">
-                    <div className="bg-yellow-200 text-black p-4 rounded-lg shadow-md m-10">
-                        <h2 className="text-xl font-bold mb-4">
-                            Profile Details
-                        </h2>
+                    <div className="bg-white text-black p-4 rounded-lg shadow-md m-10">
+                        <div className="flex justify-between">
+                            <h2 className="text-xl font-bold mb-4">
+                                {profile.firstName} {profile.lastName}
+                            </h2>
+                            <Link
+                                to={'/profile'}
+                                className="fas fa-chevron-right"
+                            ></Link>
+                        </div>
+
                         <div>
                             <div>
                                 <p>
                                     <span className="font-bold">Role:</span>{' '}
                                     {profile.role.name}
                                 </p>
-                                <p>
-                                    <span className="font-bold">Name:</span>{' '}
-                                    {profile.firstName} {profile.lastName}
-                                </p>
+
                                 <p>
                                     <span className="font-bold">
                                         Date of birth:

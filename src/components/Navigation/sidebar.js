@@ -29,9 +29,6 @@ const Sidebar = () => {
 
         fetchAllowedModules();
     }, []);
-
-    //console.log('Allowed modules:', allowedModules);
-
     const logoutHandler = () => {
         dispatch({ type: 'LOGOUT' });
         navigate('/');
@@ -47,12 +44,9 @@ const Sidebar = () => {
                 <div className="flex flex-col justify-between min-h-screen">
                     <div>
                         <div className="flex justify-between items-center p-4">
-                            <div className="text-white font-bold text-xl">
-                                Modules
-                            </div>
-                            <button className="text-white focus:outline-none">
-                                <i className="fas fa-bars"></i>
-                            </button>
+                            <Link to={'/home'} className="text-white">
+                                Home
+                            </Link>
                         </div>
                         <ul className="flex flex-col">
                             {allowedModules.map((module, index) => (
