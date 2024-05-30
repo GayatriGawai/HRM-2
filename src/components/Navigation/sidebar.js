@@ -29,6 +29,7 @@ const Sidebar = () => {
 
         fetchAllowedModules();
     }, []);
+
     const logoutHandler = () => {
         dispatch({ type: 'LOGOUT' });
         navigate('/');
@@ -38,38 +39,51 @@ const Sidebar = () => {
         <Fragment>
             <aside
                 id="default-sidebar"
-                className="bg-gray-700 fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+                className="bg-blue-700 fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 overflow-y-auto"
                 aria-label="Sidebar"
             >
                 <div className="flex flex-col justify-between min-h-screen">
-                    <div>
-                        <div className="flex justify-between items-center p-4">
-                            <Link to={'/home'} className="text-white">
-                                Home
+                    <div className="flex flex-col">
+                        <ul className="flex flex-col space-y-2 p-4 font-normal">
+                            <Link
+                                to="/home"
+                                className="p-4 text-white bg-blue-600 rounded-lg shadow-lg z-50 transition transform hover:-translate-y-1 hover:bg-white hover:text-blue-600 hover:font-bold"
+                            >
+                                <p className="fas fa-home"></p> Home
                             </Link>
-                        </div>
-                        <ul className="flex flex-col">
+                            <Link
+                                to="/dashboard"
+                                className="p-4 text-white bg-blue-600 rounded-lg shadow-lg z-50 transition transform hover:-translate-y-1 hover:bg-white hover:text-blue-600 hover:font-semibold"
+                            >
+                                <p className="fas fa-cubes"></p> Dashboard
+                            </Link>
+                            <p className="p-4 text-white">
+                                <p className="fas fa-align-left"></p> Modules
+                            </p>
+
                             {allowedModules.map((module, index) => (
-                                <li key={index} className="p-4 text-white">
+                                <li
+                                    key={index}
+                                    className="p-4 text-white text-sm bg-blue-600 rounded-lg shadow-lg z-50 transition transform hover:-translate-y-1 hover:bg-white hover:text-blue-600 hover:font-bold"
+                                >
                                     <Link
                                         to={`/${module.toLowerCase()}`}
-                                        className="hover:text-blue-400"
+                                        className="block hover:text-blue-600"
                                     >
                                         {module}
                                     </Link>
                                 </li>
                             ))}
+
+                            <Link
+                                to="/"
+                                onClick={logoutHandler}
+                                className="p-4 text-white bg-blue-600 rounded-lg shadow-lg z-50 transition transform hover:-translate-y-1 hover:bg-white hover:text-red-600 hover:font-semibold justify-end"
+                            >
+                                <i className="fas fa-sign-out-alt"></i>{' '}
+                                <span>Logout</span>
+                            </Link>
                         </ul>
-                    </div>
-                    <div className="text-white p-4 mb-5 justify-end">
-                        <a
-                            href="/"
-                            onClick={logoutHandler}
-                            className="focus:outline-none hover:text-blue-400 text-sm"
-                        >
-                            <span className="hidden sm:inline">Logout</span>{' '}
-                            <i className="fas fa-sign-out-alt sm:hidden"></i>
-                        </a>
                     </div>
                 </div>
             </aside>

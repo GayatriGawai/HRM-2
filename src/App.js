@@ -14,6 +14,7 @@ import setAuthToken from './utils/setAuthtoken';
 import AddEducation from './components/ProfileComponent/AddEducation';
 import AddExperience from './components/ProfileComponent/AddExperience';
 import ViewProfile from './components/ProfileComponent/ViewProfile';
+import Dashboard from './components/LandingPage.components/Dashboard';
 
 if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -29,6 +30,7 @@ const App = () => {
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/home" element={<HomePage />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/roles" element={<RoleForm />} />
                         <Route path="/user" element={<User />} />
                         <Route path="/profile" element={<ProfileList />} />
