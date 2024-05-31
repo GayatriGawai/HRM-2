@@ -25,7 +25,7 @@ const ExperienceForm = ({
                                 name="title"
                                 value={exp.title}
                                 onChange={(e) => handleChange(e, index)}
-                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                             />
                         </div>
                         <div>
@@ -37,7 +37,7 @@ const ExperienceForm = ({
                                 name="company"
                                 value={exp.company}
                                 onChange={(e) => handleChange(e, index)}
-                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                             />
                         </div>
                         <div>
@@ -49,7 +49,7 @@ const ExperienceForm = ({
                                 name="location"
                                 value={exp.location}
                                 onChange={(e) => handleChange(e, index)}
-                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                             />
                         </div>
                         <div className="mb-4">
@@ -61,7 +61,7 @@ const ExperienceForm = ({
                                 name="description"
                                 value={exp.description}
                                 onChange={(e) => handleChange(e, index)}
-                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                             ></textarea>
                         </div>
                         <div>
@@ -73,7 +73,7 @@ const ExperienceForm = ({
                                 name="from"
                                 value={exp.from}
                                 onChange={(e) => handleChange(e, index)}
-                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                             />
                         </div>
                         <div>
@@ -85,7 +85,7 @@ const ExperienceForm = ({
                                 name="to"
                                 value={exp.to}
                                 onChange={(e) => handleChange(e, index)}
-                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                className="mt-1 p-2 flex w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                             />
                         </div>
                         <div>
@@ -97,7 +97,7 @@ const ExperienceForm = ({
                                 name="current"
                                 checked={exp.current}
                                 onChange={(e) => handleChange(e, index)}
-                                className="mt-1 p-2 flex rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                className="mt-1 p-2 flex rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                             />
                         </div>
 
@@ -114,7 +114,7 @@ const ExperienceForm = ({
                 <button
                     type="button"
                     onClick={addExperience}
-                    className="mt-5 text-blue-500 text-sm font-semibold flex justify-end"
+                    className="mt-5 text-yellow-500 text-sm font-semibold flex justify-end"
                 >
                     Add Experience
                 </button>

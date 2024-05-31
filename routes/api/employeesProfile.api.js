@@ -74,27 +74,39 @@ router.get(
 // @route   PUT /api/profiles/:id
 // @desc    Update a profile by ID
 // @access  Private
-router.put('/profiles/:id', checkPermission(['update']), async (req, res) => {
-    try {
-        const profileId = req.params.id;
-        const updatedProfileData = req.body;
+router.put(
+    '/updateProfile/:id',
+    checkPermission(['update']),
+    async (req, res) => {
+        try {
+            const profileId = req.params.id;
+            const updatedProfileData = req.body;
 
-        const updatedProfile = await Profile.findByIdAndUpdate(
-            profileId,
-            updatedProfileData,
-            { new: true }
-        ).populate('role');
+            if (
+                updatedProfileData.role &&
+                typeof updatedProfileData.role === 'object'
+            ) {
+                updatedProfileData.role =
+                    updatedProfileData.role._id || updatedProfileData.role;
+            }
 
-        if (!updatedProfile) {
-            return res.status(404).json({ error: 'Profile not found' });
+            const updatedProfile = await Profile.findByIdAndUpdate(
+                profileId,
+                updatedProfileData,
+                { new: true }
+            ).populate('role');
+
+            if (!updatedProfile) {
+                return res.status(404).json({ error: 'Profile not found' });
+            }
+
+            res.json(updatedProfile);
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            res.status(500).json({ error: 'Server error' });
         }
-
-        res.json(updatedProfile);
-    } catch (error) {
-        console.error('Error updating profile:', error);
-        res.status(500).json({ error: 'Server error' });
     }
-});
+);
 
 // @route   DELETE /api/profiles/:id
 // @desc    Delete a profile by ID

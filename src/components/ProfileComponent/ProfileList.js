@@ -33,7 +33,7 @@ const ProfileList = () => {
     if (loading) {
         return (
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
-                <i className="fa fa-spinner fa-spin text-5xl text-blue-400"></i>
+                <i className="fa fa-spinner fa-spin text-5xl text-yellow-400"></i>
             </div>
         );
     }
@@ -47,9 +47,9 @@ const ProfileList = () => {
                 </div>
 
                 <div className="col-span-1 md:col-span-4 row-span-5">
-                    <div className="flex-1 bg-white p-4 md:p-10 flex flex-col">
-                        <h2 className="text-xl font-semibold text-2xl pt-4 md:pt-14">
-                            <i className="fas fa-list"> </i> Employee List
+                    <div className="flex-1 bg-white md:p-10 flex flex-col">
+                        <h2 className="text-xl font-semibold text-2xl pt-4">
+                            <i className="fas fa-list"></i> Employee List
                         </h2>
                         <div className="container">
                             <div className="contents">
@@ -63,7 +63,7 @@ const ProfileList = () => {
                             </div>
                             <div>
                                 <table className="w-full border border-collapse border-gray-300 border-r">
-                                    <thead className="bg-blue-500 text-white  h-10">
+                                    <thead className="bg-yellow-500 text-white  h-10">
                                         <tr>
                                             <th style={{ width: '20%' }}>
                                                 No.

@@ -32,7 +32,7 @@ const Register = () => {
 
     return (
         <Fragment>
-            <div className="container bg-blue-600 opacity-80 mx-auto mt-16">
+            <div className="container bg-yellow-600 opacity-80 mx-auto mt-16">
                 <section className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
                     <h2 className="text-left text-2xl font-semibold mb-4 font-bold">
                         Sign up
@@ -99,7 +99,7 @@ const Register = () => {
                             Don't have an account?
                             <Link
                                 to="/login"
-                                className="hover:text-blue-400 hover:underline "
+                                className="hover:text-yellow-400 hover:underline "
                             >
                                 {'  '}
                                 Sign In
@@ -107,7 +107,7 @@ const Register = () => {
                         </p>
                         <button
                             type="submit"
-                            className="bg-blue-600 hover:bg-blue-500 font-bold py-2 px-4 rounded"
+                            className="bg-yellow-600 hover:bg-yellow-500 font-bold py-2 px-4 rounded"
                         >
                             Register
                         </button>

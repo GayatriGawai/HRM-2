@@ -85,7 +85,7 @@ const Login = ({ login }) => {
     if (loading) {
         return (
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
-                <i className="fa fa-spinner fa-spin text-5xl text-blue-400"></i>
+                <i className="fa fa-spinner fa-spin text-5xl text-yellow-400"></i>
             </div>
         );
     }
@@ -152,7 +152,7 @@ const Login = ({ login }) => {
                         </div>
                         <button
                             type="submit"
-                            className="bg-blue-600 hover:bg-blue-500 font-bold py-2 px-4 rounded"
+                            className="bg-yellow-600 hover:bg-yellow-500 font-bold py-2 px-4 rounded"
                             style={{ marginLeft: 'auto' }}
                         >
                             Login

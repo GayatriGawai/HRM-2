@@ -30,7 +30,7 @@ const ViewProfile = () => {
     if (loading) {
         return (
             <div className="fixed inset-0 flex items-center justify-center z-50">
-                <i className="fa fa-spinner fa-spin text-5xl text-blue-400"></i>
+                <i className="fa fa-spinner fa-spin text-5xl text-yellow-400"></i>
             </div>
         );
     }
@@ -49,10 +49,12 @@ const ViewProfile = () => {
                             </h2>
                             <Link
                                 to={'/profile'}
-                                className="text-blue-500 hover:text-blue-700"
+                                className="text-blue-500 hover:text-red-700"
                             >
-                                <i className="fas fa-chevron-right"></i> Back to
-                                Profiles
+                                <span className="text-sm">
+                                    Back to Profiles{'   '}
+                                </span>
+                                <i className="fas fa-chevron-right"></i>
                             </Link>
                         </div>
 
@@ -115,98 +117,120 @@ const ViewProfile = () => {
                             <h3 className="text-lg font-semibold mb-4">
                                 Education
                             </h3>
-                            {profile.education.map((edu, index) => (
-                                <div
-                                    key={index}
-                                    className="mb-6 p-4 borderrounded-lg bg-gray-50"
-                                >
-                                    <p>
-                                        <span className="font-semibold">
-                                            University:
-                                        </span>{' '}
-                                        {edu.university}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">
-                                            Degree:
-                                        </span>{' '}
-                                        {edu.degree}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">
-                                            Field Of Study:
-                                        </span>{' '}
-                                        {edu.fieldofstudy}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">
-                                            From:
-                                        </span>{' '}
-                                        {moment(edu.from).format('DD/MM/YYYY')}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">
-                                            To:
-                                        </span>{' '}
-                                        {moment(edu.to).format('DD/MM/YYYY')}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">
-                                            Description:
-                                        </span>{' '}
-                                        {edu.description}
-                                    </p>
-                                </div>
-                            ))}
+                            {profile.education &&
+                            profile.education.length > 0 ? (
+                                profile.education.map((edu, index) => (
+                                    <div
+                                        key={index}
+                                        className="mb-6 p-4 border rounded-lg bg-gray-50"
+                                    >
+                                        <p>
+                                            <span className="font-semibold">
+                                                University:
+                                            </span>{' '}
+                                            {edu.university}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">
+                                                Degree:
+                                            </span>{' '}
+                                            {edu.degree}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">
+                                                Field Of Study:
+                                            </span>{' '}
+                                            {edu.fieldofstudy}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">
+                                                From:
+                                            </span>{' '}
+                                            {moment(edu.from).format(
+                                                'DD/MM/YYYY'
+                                            )}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">
+                                                To:
+                                            </span>{' '}
+                                            {moment(edu.to).format(
+                                                'DD/MM/YYYY'
+                                            )}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">
+                                                Description:
+                                            </span>{' '}
+                                            {edu.description}
+                                        </p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-sm text-gray-300 italic">
+                                    No education is added
+                                </p>
+                            )}
                         </div>
 
                         <div className="mt-8">
                             <h3 className="text-lg font-semibold mb-4">
                                 Experience
                             </h3>
-                            {profile.experience.map((exp, index) => (
-                                <div
-                                    key={index}
-                                    className="mb-6 p-4 border rounded-lg bg-gray-50"
-                                >
-                                    <p>
-                                        <span className="font-semibold">
-                                            Title:
-                                        </span>{' '}
-                                        {exp.title}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">
-                                            Company:
-                                        </span>{' '}
-                                        {exp.company}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">
-                                            Location:
-                                        </span>{' '}
-                                        {exp.location}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">
-                                            From:
-                                        </span>{' '}
-                                        {moment(exp.from).format('DD/MM/YYYY')}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">
-                                            To:
-                                        </span>{' '}
-                                        {moment(exp.to).format('DD/MM/YYYY')}
-                                    </p>
-                                    <p>
-                                        <span className="font-semibold">
-                                            Description:
-                                        </span>{' '}
-                                        {exp.description}
-                                    </p>
-                                </div>
-                            ))}
+                            {profile.education &&
+                            profile.education.length > 0 ? (
+                                profile.experience.map((exp, index) => (
+                                    <div
+                                        key={index}
+                                        className="mb-6 p-4 border rounded-lg bg-gray-50"
+                                    >
+                                        <p>
+                                            <span className="font-semibold">
+                                                Title:
+                                            </span>{' '}
+                                            {exp.title}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">
+                                                Company:
+                                            </span>{' '}
+                                            {exp.company}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">
+                                                Location:
+                                            </span>{' '}
+                                            {exp.location}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">
+                                                From:
+                                            </span>{' '}
+                                            {moment(exp.from).format(
+                                                'DD/MM/YYYY'
+                                            )}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">
+                                                To:
+                                            </span>{' '}
+                                            {moment(exp.to).format(
+                                                'DD/MM/YYYY'
+                                            )}
+                                        </p>
+                                        <p>
+                                            <span className="font-semibold">
+                                                Description:
+                                            </span>{' '}
+                                            {exp.description}
+                                        </p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-sm text-gray-300 italic">
+                                    No experience is added
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>

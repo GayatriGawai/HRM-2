@@ -18,8 +18,8 @@ const Profile = () => {
         firstName: '',
         lastName: '',
         phone: '',
-        email: '',
-        skills: '',
+        emailAddress: '',
+        skills: [],
         gender: '',
         position: '',
         status: '',
@@ -104,7 +104,7 @@ const Profile = () => {
                     firstName: '',
                     lastName: '',
                     phone: '',
-                    email: '',
+                    emailAddress: '',
                     skills: '',
                     gender: '',
                     position: '',
@@ -202,7 +202,7 @@ const Profile = () => {
     if (loading) {
         return (
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
-                <i className="fa fa-spinner fa-spin text-5xl text-blue-400"></i>
+                <i className="fa fa-spinner fa-spin text-5xl text-yellow-400"></i>
             </div>
         );
     }
@@ -258,7 +258,7 @@ const Profile = () => {
                                     name="firstName"
                                     value={formData.firstName}
                                     onChange={handleChange}
-                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                                 />
                             </div>
                             <div className="mb-4">
@@ -274,7 +274,7 @@ const Profile = () => {
                                     name="lastName"
                                     value={formData.lastName}
                                     onChange={handleChange}
-                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                                 />
                             </div>
                             <div className="mb-4">
@@ -290,7 +290,7 @@ const Profile = () => {
                                     name="phone"
                                     value={formData.phone}
                                     onChange={handleChange}
-                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                                 />
                             </div>
                             <div className="mb-4">
@@ -306,7 +306,7 @@ const Profile = () => {
                                     name="emailAddress"
                                     value={formData.emailAddress}
                                     onChange={handleChange}
-                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                                 />
                             </div>
                             <div className="mb-4">
@@ -320,9 +320,9 @@ const Profile = () => {
                                     type="text"
                                     id="skills"
                                     name="skills"
-                                    value={formData.skills}
+                                    value={formData.skills.join(', ')}
                                     onChange={handleChange}
-                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                                 />
                             </div>
                             <div className="mb-4">
@@ -381,7 +381,7 @@ const Profile = () => {
                                     name="position"
                                     value={formData.position}
                                     onChange={handleChange}
-                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                                 />
                             </div>
                             <div className="mb-4">
@@ -396,7 +396,7 @@ const Profile = () => {
                                     name="status"
                                     value={formData.status}
                                     onChange={handleChange}
-                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                                 >
                                     <option value="">Select Status</option>
                                     <option value="Trainee">Trainee</option>
@@ -422,7 +422,7 @@ const Profile = () => {
                                     name="salary"
                                     value={formData.salary}
                                     onChange={handleChange}
-                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                                 />
                             </div>
                             <div className="mb-4">
@@ -438,7 +438,7 @@ const Profile = () => {
                                     name="dob"
                                     value={formData.dob}
                                     onChange={handleChange}
-                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
+                                    className="mt-1 p-2 block w-full border rounded-md shadow-sm focus:outline-none focus:border-yellow-500"
                                 />
                             </div>
                             <EducationForm
@@ -465,7 +465,7 @@ const Profile = () => {
                             <button
                                 type="submit"
                                 onClick={handleSubmit}
-                                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             >
                                 Create Profile
                             </button>

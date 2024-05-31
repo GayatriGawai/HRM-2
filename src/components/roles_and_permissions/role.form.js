@@ -114,7 +114,7 @@ const RoleForm = () => {
                                 name="name"
                                 value={formData.name}
                                 onChange={onChange}
-                                className="mt-1 p-3 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                className="mt-1 p-3 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
                                 placeholder="Role Name"
                                 required
                             />
@@ -136,7 +136,7 @@ const RoleForm = () => {
                                             <label className="inline-flex items-center">
                                                 <input
                                                     type="checkbox"
-                                                    className="form-checkbox h-3 w-3 text-blue-600"
+                                                    className="form-checkbox h-3 w-3 text-yellow-600"
                                                     onChange={(e) =>
                                                         handlePermissionChange(
                                                             e,
@@ -152,7 +152,7 @@ const RoleForm = () => {
                                             <label className="inline-flex items-center">
                                                 <input
                                                     type="checkbox"
-                                                    className="form-checkbox h-3 w-3 text-blue-600"
+                                                    className="form-checkbox h-3 w-3 text-yellow-600"
                                                     onChange={(e) =>
                                                         handlePermissionChange(
                                                             e,
@@ -168,7 +168,7 @@ const RoleForm = () => {
                                             <label className="inline-flex items-center">
                                                 <input
                                                     type="checkbox"
-                                                    className="form-checkbox h-3 w-3 text-blue-600"
+                                                    className="form-checkbox h-3 w-3 text-yellow-600"
                                                     onChange={(e) =>
                                                         handlePermissionChange(
                                                             e,
@@ -184,7 +184,7 @@ const RoleForm = () => {
                                             <label className="inline-flex items-center">
                                                 <input
                                                     type="checkbox"
-                                                    className="form-checkbox h-3 w-3 text-blue-600"
+                                                    className="form-checkbox h-3 w-3 text-yellow-600"
                                                     onChange={(e) =>
                                                         handlePermissionChange(
                                                             e,
@@ -206,7 +206,7 @@ const RoleForm = () => {
                         <div className="flex justify-end -mt-2">
                             <button
                                 type="submit"
-                                className="inline-flex justify-end py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                className="inline-flex justify-end py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                             >
                                 Submit
                             </button>
