@@ -5,6 +5,64 @@ const { check, validationResult } = require('express-validator');
 const Profile = require('../../../dbModels/ProfileDB');
 const router = express.Router();
 
+// To create the education where education is not added already
+router.post(
+    '/createEdu/:id',
+    authMiddleware,
+
+    [
+        check('university', 'University is required').not().isEmpty(),
+        check('degree', 'Degree is required').not().isEmpty(),
+        check('fieldofstudy', 'Field of study is required').not().isEmpty(),
+        check('from', 'From date is required').not().isEmpty(),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array(),
+            });
+        }
+
+        const {
+            university,
+            degree,
+            fieldofstudy,
+            from,
+            to,
+            current,
+            description,
+        } = req.body;
+
+        const newEdu = {
+            university,
+            degree,
+            fieldofstudy,
+            from,
+            to,
+            current,
+            description,
+        };
+
+        try {
+            // Create a new profile with the education entry
+            const profile = new Profile({
+                education: [newEdu],
+                // Add other profile fields here if needed
+            });
+
+            await profile.save();
+            res.json(profile);
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('Server error');
+        }
+    }
+);
+
+// To update the education where education is added already
+
 router.put(
     '/addEdu/:id',
     authMiddleware,

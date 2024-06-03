@@ -10,7 +10,7 @@ const ExperienceForm = ({
         <Fragment>
             <div className="bg-white p-4 mb-4 rounded-lg shadow">
                 <h2 className="text-lg font-semibold mb-4">Add Experience</h2>
-                {experience.map((exp, index) => (
+                {experience?.experience.map((exp, index) => (
                     <div
                         key={index}
                         className="grid grid-cols-2 gap-4"

@@ -9,7 +9,7 @@ const Announcement = require('../../dbModels/AnnouncementDB');
 // Private Route {only admins can create a post}
 
 router.post(
-    '/make-announcement',
+    '/createNews',
     [
         authMiddleware,
         [
@@ -19,12 +19,6 @@ router.post(
     ],
     async (req, res) => {
         try {
-            if (req.roles !== 'admin') {
-                return res.status(403).json({
-                    message: 'Access denied, admin privileges required',
-                });
-            }
-
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(400).json({ errors: errors.array() });
@@ -51,7 +45,7 @@ router.post(
 // Getting all announcements
 // Public route {all employees can see the posts}
 
-router.get('/announcements', async (req, res) => {
+router.get('/getNews', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const config = { pageSize: 10 };
     try {
@@ -106,7 +100,7 @@ router.get('/announcements/:id', async (req, res) => {
 // Private route {Only Admins}
 
 router.put(
-    '/update-announcement/:id',
+    '/updateNews/:id',
     [
         authMiddleware,
         [
@@ -149,7 +143,7 @@ router.put(
 // Deleting an announcement by ID
 // Private route {Only Admins}
 
-router.delete('/announcements/delete/:id', authMiddleware, async (req, res) => {
+router.delete('/deleteNews/:id', authMiddleware, async (req, res) => {
     try {
         if (req.roles !== 'admin') {
             return res.status(403).json({

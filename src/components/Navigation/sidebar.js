@@ -39,7 +39,7 @@ const Sidebar = () => {
         <Fragment>
             <aside
                 id="default-sidebar"
-                className="bg-yellow-700 fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 overflow-y-auto"
+                className="bg-yellow-700 top-0 left-0 z-40  h-screen transition-transform -translate-x-full sm:translate-x-0 overflow-y-auto"
                 aria-label="Sidebar"
             >
                 <div className="flex flex-col justify-between min-h-screen">

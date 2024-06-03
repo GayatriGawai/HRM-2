@@ -115,8 +115,12 @@ const ViewProfile = () => {
 
                         <div className="mt-8 ">
                             <h3 className="text-lg font-semibold mb-4">
-                                Education
+                                Education{'     '}
+                                <Link to={`/addEdu/${id}`}>
+                                    <i className="fas fa-pencil text-sm text-blue-300 font-thin"></i>
+                                </Link>
                             </h3>
+
                             {profile.education &&
                             profile.education.length > 0 ? (
                                 profile.education.map((edu, index) => (
@@ -175,7 +179,10 @@ const ViewProfile = () => {
 
                         <div className="mt-8">
                             <h3 className="text-lg font-semibold mb-4">
-                                Experience
+                                Experience{'    '}
+                                <Link to={`/addExp/${id}`}>
+                                    <i className="fas fa-pencil text-sm text-blue-300 font-thin"></i>
+                                </Link>
                             </h3>
                             {profile.education &&
                             profile.education.length > 0 ? (
