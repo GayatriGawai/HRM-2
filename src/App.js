@@ -15,6 +15,7 @@ import AddEducation from './components/ProfileComponent/AddEducation';
 import AddExperience from './components/ProfileComponent/AddExperience';
 import ViewProfile from './components/ProfileComponent/ViewProfile';
 import Dashboard from './components/LandingPage.components/Dashboard';
+import UpdateProfile from './components/ProfileComponent/UpdateProfile';
 
 if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -34,6 +35,7 @@ const App = () => {
                         <Route path="/roles" element={<RoleForm />} />
                         <Route path="/user" element={<User />} />
                         <Route path="/profile" element={<ProfileList />} />
+
                         <Route
                             path="/profile/addProfile"
                             element={<Profile />}
@@ -41,6 +43,10 @@ const App = () => {
                         <Route
                             path="/getProfile/:id"
                             element={<ViewProfile />}
+                        />
+                        <Route
+                            path="/updateProfile/:id"
+                            element={<UpdateProfile />}
                         />
                         {/*Use this while getting the details by the ID*/}
                         <Route path="/addEdu/:id" element={<AddEducation />} />

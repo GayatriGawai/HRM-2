@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import Sidebar from '../Navigation/sidebar';
 import moment from 'moment';
+import UpdateProfile from './UpdateProfile';
 
 const ViewProfile = () => {
     const { id } = useParams();
@@ -54,6 +55,13 @@ const ViewProfile = () => {
                                 <span className="text-sm">
                                     Back to Profiles{'   '}
                                 </span>
+                                <i className="fas fa-chevron-right"></i>
+                            </Link>
+                            <Link
+                                to={`/updateProfile/${id}`}
+                                className="text-blue-500 hover:text-red-700"
+                            >
+                                <span className="text-sm">Edit{'   '}</span>
                                 <i className="fas fa-chevron-right"></i>
                             </Link>
                         </div>
